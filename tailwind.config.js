@@ -13,11 +13,17 @@ module.exports = {
       red: colors.red,
       green: colors.green,
       blue: colors.blue,
+      indigo: colors.indigo,
     },
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      ringWidth: ['focus-visible'],
+      ringColor: ['focus-visible'],
+      ringOffsetWidth: ['focus-visible'],
+      ringOffsetColor: ['focus-visible'],
+    },
   },
   plugins: [],
 };

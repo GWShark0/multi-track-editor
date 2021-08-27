@@ -1,11 +1,11 @@
+import Controls from 'features/storyboard/Controls';
 import Timeline from 'features/storyboard/Timeline';
 
-function App() {
+export default function App() {
   return (
-    <div className="container p-4 mx-auto">
+    <div className="p-4">
+      <Controls />
       <Timeline />
     </div>
   );
 }
-
-export default App;

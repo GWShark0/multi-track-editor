@@ -1,34 +1,67 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import {
+  createEntityAdapter,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit';
+import { last } from 'lodash';
 import { nanoid } from 'nanoid';
 
+const itemsAdapter = createEntityAdapter();
+const tracksAdapter = createEntityAdapter();
+
 const initialState = {
-  tracks: [{ id: nanoid() }],
+  items: itemsAdapter.getInitialState(),
+  // start with one track by default
+  tracks: tracksAdapter.addOne(tracksAdapter.getInitialState(), {
+    id: nanoid(),
+  }),
 };
 
 export const storyboardSlice = createSlice({
   name: 'storyboard',
   initialState,
   reducers: {
-    addTrack: (state) => {
-      state.tracks.push({ id: nanoid() });
+    addItem: (state, action) => {
+      const id = nanoid();
+      itemsAdapter.addOne(state.items, { id, ...action.payload });
     },
-    removeTrack: (state) => {
-      state.tracks.pop();
+    addTrack: (state) => {
+      const id = nanoid();
+      tracksAdapter.addOne(state.tracks, { id, itemIds: [] });
+    },
+    removeItem: (state, action) => {
+      itemsAdapter.removeOne(state.items, action);
+    },
+    removeTrack: (state, action) => {
+      tracksAdapter.removeOne(state.tracks, action);
     },
   },
 });
 
 // actions
-
-export const { addTrack, removeTrack } = storyboardSlice.actions;
+export const { addItem, addTrack, removeItem, removeTrack } =
+  storyboardSlice.actions;
 
 // selectors
+export const {
+  selectAll: selectAllItems,
+  selectById: selectItemById,
+  selectTotal: selectTotalItems,
+} = itemsAdapter.getSelectors((state) => state.storyboard.items);
+export const {
+  selectAll: selectAllTracks,
+  selectById: selectTrackById,
+  selectTotal: selectTotalTracks,
+} = tracksAdapter.getSelectors((state) => state.storyboard.tracks);
 
-export const selectTracks = (state) => state.storyboard.tracks;
+export const selectLastTrackId = createSelector(
+  selectAllTracks,
+  (tracks) => last(tracks).id
+);
 
-export const selectCanRemoveTrack = createSelector(
-  selectTracks,
-  (tracks) => tracks.length > 1
+export const selectCanRemoveTracks = createSelector(
+  selectTotalTracks,
+  (total) => total > 1
 );
 
 export default storyboardSlice.reducer;

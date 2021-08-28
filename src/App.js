@@ -1,10 +1,10 @@
-import Controls from 'features/storyboard/Controls';
+import MediaControls from 'features/storyboard/MediaControls';
 import Timeline from 'features/storyboard/Timeline';
 
 export default function App() {
   return (
     <div className="p-4">
-      <Controls />
+      <MediaControls />
       <Timeline />
     </div>
   );

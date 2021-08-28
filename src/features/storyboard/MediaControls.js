@@ -1,20 +1,21 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'components/Button';
-import { addItem } from './storyboardSlice';
+import { addItem, selectLastTrackId } from './storyboardSlice';
 
-export default function Controls() {
+export default function MediaControls() {
   const dispatch = useDispatch();
+  const lastTrackId = useSelector(selectLastTrackId);
 
   const handleVideoButtonClick = () => {
-    dispatch(addItem({ type: 'video' }));
+    dispatch(addItem({ type: 'video', trackId: lastTrackId }));
   };
 
   const handleImageButtonClick = () => {
-    dispatch(addItem({ type: 'image' }));
+    dispatch(addItem({ type: 'image', trackId: lastTrackId }));
   };
 
   const handleAudioButtonClick = () => {
-    dispatch(addItem({ type: 'audio' }));
+    dispatch(addItem({ type: 'audio', trackId: lastTrackId }));
   };
 
   return (

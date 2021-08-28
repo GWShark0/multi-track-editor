@@ -9,6 +9,7 @@ import {
   selectLastTrackId,
 } from './storyboardSlice';
 
+import TimelineControls from './TimelineControls';
 import Track from './Track';
 
 export default function Timeline() {
@@ -26,20 +27,31 @@ export default function Timeline() {
   };
 
   return (
-    <div className="h-1/2 fixed inset-x-0 bottom-0 p-8 space-y-2 overflow-scroll bg-gray-300">
-      {tracks.map((track) => {
-        const { id } = track;
-        return <Track key={id} />;
-      })}
-      <div className="flex justify-end space-x-1">
-        {canRemoveTracks && (
+    <div className="h-1/2 fixed inset-x-0 bottom-0 flex flex-col bg-gray-300">
+      <TimelineControls />
+      <div className=" p-8 space-y-2 overflow-scroll">
+        {tracks.map((track) => {
+          const { id } = track;
+          return <Track id={id} key={id} />;
+        })}
+        <div className="flex justify-end space-x-1">
+          {canRemoveTracks && (
+            <IconButton
+              color="red"
+              icon={MinusIcon}
+              onClick={handleRemoveTrack}
+              round
+              size="small"
+            />
+          )}
           <IconButton
-            color="red"
-            icon={MinusIcon}
-            onClick={handleRemoveTrack}
+            color="blue"
+            icon={PlusIcon}
+            onClick={handleAddTrack}
+            round
+            size="small"
           />
-        )}
-        <IconButton icon={PlusIcon} onClick={handleAddTrack} />
+        </div>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ module.exports = {
       white: colors.white,
       gray: colors.gray,
       red: colors.red,
+      yellow: colors.yellow,
       green: colors.green,
       blue: colors.blue,
       indigo: colors.indigo,
@@ -19,6 +20,8 @@ module.exports = {
   },
   variants: {
     extend: {
+      opacity: ['disabled'],
+      pointerEvents: ['disabled'],
       ringWidth: ['focus-visible'],
       ringColor: ['focus-visible'],
       ringOffsetWidth: ['focus-visible'],

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'components/Button';
+import { createAudioItem, createImageItem, createVideoItem } from './media';
 import { addItem, selectLastTrackId } from './storyboardSlice';
 
 export default function MediaControls() {
@@ -7,15 +8,15 @@ export default function MediaControls() {
   const lastTrackId = useSelector(selectLastTrackId);
 
   const handleVideoButtonClick = () => {
-    dispatch(addItem({ type: 'video', trackId: lastTrackId }));
+    dispatch(addItem(createVideoItem(lastTrackId)));
   };
 
   const handleImageButtonClick = () => {
-    dispatch(addItem({ type: 'image', trackId: lastTrackId }));
+    dispatch(addItem(createImageItem(lastTrackId)));
   };
 
   const handleAudioButtonClick = () => {
-    dispatch(addItem({ type: 'audio', trackId: lastTrackId }));
+    dispatch(addItem(createAudioItem(lastTrackId)));
   };
 
   return (

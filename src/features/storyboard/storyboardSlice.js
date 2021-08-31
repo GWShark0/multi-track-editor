@@ -23,17 +23,41 @@ export const storyboardSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { id = nanoid(), trackId, type } = action.payload;
-
+      const {
+        id = nanoid(),
+        duration = 1,
+        startTime,
+        trackId,
+        type,
+      } = action.payload;
       const track = state.tracks.entities[trackId];
 
-      if (track?.itemIds.includes(id) === false) {
-        track.itemIds.push(id);
+      track.itemIds.push(id);
+      itemsAdapter.addOne(state.items, {
+        id,
+        duration,
+        startTime,
+        trackId,
+        type,
+      });
+      state.activeItemId = id;
+      state.activeTrackId = trackId;
+    },
+    moveItem: (state, action) => {
+      const { id, trackId } = action.payload;
+
+      if (!id || !trackId) {
+        return state;
       }
 
-      itemsAdapter.addOne(state.items, { id, trackId, type });
+      const { trackId: oldTrackId } = state.items.entities[id];
+      const oldTrack = state.tracks.entities[oldTrackId];
+      const newTrack = state.tracks.entities[trackId];
 
-      state.activeId = id;
+      pull(oldTrack.itemIds, id);
+      newTrack.itemIds.push(id);
+
+      itemsAdapter.updateOne(state.items, { id, changes: { trackId } });
     },
     removeItem: (state, action) => {
       const itemId = action.payload;
@@ -41,9 +65,10 @@ export const storyboardSlice = createSlice({
       const { trackId } = state.items.entities[itemId];
       const track = state.tracks.entities[trackId];
 
-      track.itemIds = pull(track.itemIds, itemId);
+      pull(track.itemIds, itemId);
       itemsAdapter.removeOne(state.items, action);
-      delete state.activeId;
+      delete state.activeItemId;
+      delete state.activeTrackId;
     },
     addTrack: (state) => {
       const id = nanoid();
@@ -57,19 +82,29 @@ export const storyboardSlice = createSlice({
       itemsAdapter.removeMany(state.items, track.itemIds);
       tracksAdapter.removeOne(state.tracks, action);
     },
-    setActiveId: (state, action) => {
-      state.activeId = action.payload;
+    setActiveItemId: (state, action) => {
+      state.activeItemId = action.payload;
+    },
+    setActiveTrackId: (state, action) => {
+      state.activeTrackId = action.payload;
     },
   },
 });
 
 // actions
-export const { addItem, addTrack, removeItem, removeTrack, setActiveId } =
-  storyboardSlice.actions;
+export const {
+  addItem,
+  addTrack,
+  moveItem,
+  removeItem,
+  removeTrack,
+  setActiveItemId,
+  setActiveTrackId,
+} = storyboardSlice.actions;
 
 // selectors
 export const {
-  selectAll: selectAllItems,
+  selectEntities: selectAllItems,
   selectById: selectItemById,
   selectTotal: selectTotalItems,
 } = itemsAdapter.getSelectors((state) => state.storyboard.items);
@@ -89,17 +124,21 @@ export const selectCanRemoveTracks = createSelector(
   (total) => total > 1
 );
 
-export const selectItemsByTrack = createSelector(
-  [selectAllItems, (state, trackId) => trackId],
-  (items, trackId) => {
-    return items.filter((item) => item.trackId === trackId);
-  }
-);
+export const selectItemsByTrack = (state, trackId) => {
+  const items = selectAllItems(state);
+  const { itemIds } = selectTrackById(state, trackId);
+  return itemIds.map((id) => items[id]);
+};
 
-export const selectActiveId = (state) => state.storyboard.activeId;
+export const selectTrackEndTime = (state, trackId) => {
+  const items = selectItemsByTrack(state, trackId);
+  return items.reduce((total, item) => total + item.duration, 0);
+};
+
+export const selectActiveItemId = (state) => state.storyboard.activeItemId;
 
 export const selectIsActive = (state, id) => {
-  return selectActiveId(state) === id;
+  return selectActiveItemId(state) === id;
 };
 
 export default storyboardSlice.reducer;

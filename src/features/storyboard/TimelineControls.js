@@ -1,16 +1,22 @@
 import IconButton from 'components/IconButton';
 import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeItem, selectActiveId } from './storyboardSlice';
+import {
+  moveItem,
+  removeItem,
+  selectActiveItemId,
+  selectLastTrackId,
+} from './storyboardSlice';
 
 export default function TimelineControls() {
   const dispatch = useDispatch();
-  const activeId = useSelector(selectActiveId);
+  const activeItemId = useSelector(selectActiveItemId);
+  const lastTrackId = useSelector(selectLastTrackId);
 
-  const canDelete = !!activeId;
+  const canDelete = !!activeItemId;
 
   const handleDeleteClick = () => {
-    dispatch(removeItem(activeId));
+    dispatch(removeItem(activeItemId));
   };
 
   const handleMoveUpClick = () => {
@@ -18,7 +24,7 @@ export default function TimelineControls() {
   };
 
   const handleMoveDownClick = () => {
-    console.log('move down!');
+    dispatch(moveItem({ id: activeItemId, trackId: lastTrackId }));
   };
 
   return (
@@ -29,7 +35,7 @@ export default function TimelineControls() {
         onClick={handleDeleteClick}
       />
       <IconButton icon={ArrowUpIcon} disabled onClick={handleMoveUpClick} />
-      <IconButton icon={ArrowDownIcon} disabled onClick={handleMoveDownClick} />
+      <IconButton icon={ArrowDownIcon} onClick={handleMoveDownClick} />
     </div>
   );
 }

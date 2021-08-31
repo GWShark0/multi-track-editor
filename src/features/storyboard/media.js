@@ -4,14 +4,14 @@ export const MEDIA_TYPES = {
   VIDEO: 'video',
 };
 
-export function createAudioItem(trackId) {
-  return { type: MEDIA_TYPES.AUDIO, trackId };
+export function createAudioItem(props) {
+  return { type: MEDIA_TYPES.AUDIO, ...props };
 }
 
-export function createImageItem(trackId) {
-  return { type: MEDIA_TYPES.IMAGE, trackId };
+export function createImageItem(props) {
+  return { type: MEDIA_TYPES.IMAGE, ...props };
 }
 
-export function createVideoItem(trackId) {
-  return { type: MEDIA_TYPES.VIDEO, trackId };
+export function createVideoItem(props) {
+  return { type: MEDIA_TYPES.VIDEO, ...props };
 }

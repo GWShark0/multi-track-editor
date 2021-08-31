@@ -2,6 +2,7 @@ import { createVideoItem } from './media';
 import reducer, {
   addItem,
   addTrack,
+  moveItem,
   removeItem,
   removeTrack,
   selectActiveId,
@@ -41,7 +42,6 @@ it('should remove a track', () => {
       entities: {
         trackA: {
           id: 'trackA',
-          index: 0,
           itemIds: [],
         },
       },
@@ -61,7 +61,6 @@ it('should add an item', () => {
       entities: {
         trackA: {
           id: 'trackA',
-          index: 0,
           itemIds: [],
         },
       },
@@ -97,7 +96,6 @@ it('should remove an item', () => {
       entities: {
         trackA: {
           id: 'trackA',
-          index: 0,
           itemIds: ['itemA'],
         },
       },
@@ -144,4 +142,90 @@ it('should determine if id is active', () => {
   };
   expect(selectIsActive(state, 'trackA')).toBe(true);
   expect(selectIsActive(state, 'trackB')).toBe(false);
+});
+
+it('should move an item', () => {
+  const previousState = {
+    items: {
+      ids: ['itemA'],
+      entities: {
+        itemA: {
+          id: 'itemA',
+          trackId: 'trackA',
+          type: 'video',
+        },
+      },
+    },
+    tracks: {
+      ids: ['trackA', 'trackB'],
+      entities: {
+        trackA: {
+          id: 'trackA',
+          itemIds: ['itemA'],
+        },
+        trackB: {
+          id: 'trackB',
+          itemIds: [],
+        },
+      },
+    },
+    activeId: 'itemA',
+  };
+  const state = reducer(
+    previousState,
+    moveItem({ id: 'itemA', trackId: 'trackB' })
+  );
+
+  expect(state.items.entities.itemA.trackId).toBe('trackB');
+  expect(state.tracks.entities).toEqual({
+    trackA: {
+      id: 'trackA',
+      itemIds: [],
+    },
+    trackB: {
+      id: 'trackB',
+      itemIds: ['itemA'],
+    },
+  });
+  expect(state.activeId).toBe('itemA');
+});
+
+it('should move an item to a track that already has an item', () => {
+  const previousState = {
+    items: {
+      ids: ['itemA', 'itemB'],
+      entities: {
+        itemA: {
+          id: 'itemA',
+          trackId: 'trackA',
+          type: 'video',
+        },
+        itemB: {
+          id: 'itemB',
+          trackId: 'trackB',
+          type: 'video',
+        },
+      },
+    },
+    tracks: {
+      ids: ['trackA', 'trackB'],
+      entities: {
+        trackA: {
+          id: 'trackA',
+          itemIds: ['itemA'],
+        },
+        trackB: {
+          id: 'trackB',
+          itemIds: ['itemB'],
+        },
+      },
+    },
+    activeId: 'itemA',
+  };
+  const state = reducer(
+    previousState,
+    moveItem({ id: 'itemA', trackId: 'trackB' })
+  );
+
+  // console.log(JSON.stringify(state, null, 2));
 });

@@ -2,10 +2,9 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
-  current,
   // current,
 } from '@reduxjs/toolkit';
-import { first, last, pull } from 'lodash';
+import { first, last, maxBy, pull } from 'lodash';
 import { nanoid } from 'nanoid';
 
 const itemsAdapter = createEntityAdapter();
@@ -144,7 +143,8 @@ export const selectItemsByTrack = (state, trackId) => {
 
 export const selectTrackEndTime = (state, trackId) => {
   const items = selectItemsByTrack(state, trackId);
-  return items.reduce((total, item) => total + item.duration, 0);
+  const lastItem = maxBy(items, 'startTime');
+  return lastItem?.startTime + lastItem?.duration || 0;
 };
 
 export const selectActiveItemId = (state) => state.storyboard.activeItemId;

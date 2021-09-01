@@ -3,33 +3,25 @@ import Button from 'components/Button';
 import { createAudioItem, createImageItem, createVideoItem } from './media';
 import {
   addItem,
-  selectLastTrackId,
+  selectFirstTrackId,
   selectTrackEndTime,
 } from './storyboardSlice';
 
 export default function MediaControls() {
   const dispatch = useDispatch();
-  const lastTrackId = useSelector(selectLastTrackId);
-  const endTime = useSelector((state) =>
-    selectTrackEndTime(state, lastTrackId)
-  );
+  const trackId = useSelector(selectFirstTrackId);
+  const endTime = useSelector((state) => selectTrackEndTime(state, trackId));
 
   const handleVideoButtonClick = () => {
-    dispatch(
-      addItem(createVideoItem({ startTime: endTime, trackId: lastTrackId }))
-    );
+    dispatch(addItem(createVideoItem({ startTime: endTime, trackId })));
   };
 
   const handleImageButtonClick = () => {
-    dispatch(
-      addItem(createImageItem({ startTime: endTime, trackId: lastTrackId }))
-    );
+    dispatch(addItem(createImageItem({ startTime: endTime, trackId })));
   };
 
   const handleAudioButtonClick = () => {
-    dispatch(
-      addItem(createAudioItem({ startTime: endTime, trackId: lastTrackId }))
-    );
+    dispatch(addItem(createAudioItem({ startTime: endTime, trackId })));
   };
 
   return (

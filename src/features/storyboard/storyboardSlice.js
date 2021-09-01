@@ -2,8 +2,9 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
+  // current,
 } from '@reduxjs/toolkit';
-import { last, pull } from 'lodash';
+import { first, last, pull } from 'lodash';
 import { nanoid } from 'nanoid';
 
 const itemsAdapter = createEntityAdapter();
@@ -12,10 +13,12 @@ const tracksAdapter = createEntityAdapter();
 const initialState = {
   items: itemsAdapter.getInitialState(),
   // start with one track by default
-  tracks: tracksAdapter.addOne(tracksAdapter.getInitialState(), {
-    id: nanoid(),
-    itemIds: [],
-  }),
+  tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
+    { id: nanoid(), itemIds: [] },
+    { id: nanoid(), itemIds: [] },
+    { id: nanoid(), itemIds: [] },
+    { id: nanoid(), itemIds: [] },
+  ]),
 };
 
 export const storyboardSlice = createSlice({
@@ -30,6 +33,7 @@ export const storyboardSlice = createSlice({
         trackId,
         type,
       } = action.payload;
+
       const track = state.tracks.entities[trackId];
 
       track.itemIds.push(id);
@@ -40,6 +44,7 @@ export const storyboardSlice = createSlice({
         trackId,
         type,
       });
+
       state.activeItemId = id;
       state.activeTrackId = trackId;
     },
@@ -106,6 +111,7 @@ export const {
 export const {
   selectEntities: selectAllItems,
   selectById: selectItemById,
+  selectIds: selectItemIds,
   selectTotal: selectTotalItems,
 } = itemsAdapter.getSelectors((state) => state.storyboard.items);
 export const {
@@ -115,9 +121,25 @@ export const {
   selectTotal: selectTotalTracks,
 } = tracksAdapter.getSelectors((state) => state.storyboard.tracks);
 
+export const selectFirstTrackId = createSelector(selectTrackIds, (tracks) =>
+  first(tracks)
+);
+
 export const selectLastTrackId = createSelector(selectTrackIds, (tracks) =>
   last(tracks)
 );
+
+export const selectNextTrackId = (state, trackId) => {
+  const trackIds = selectTrackIds(state);
+  const index = trackIds.indexOf(trackId);
+  return index >= 0 ? trackIds[index + 1] : undefined;
+};
+
+export const selectPreviousTrackId = (state, trackId) => {
+  const trackIds = selectTrackIds(state);
+  const index = trackIds.indexOf(trackId);
+  return index >= 0 ? trackIds[index - 1] : undefined;
+};
 
 export const selectCanRemoveTracks = createSelector(
   selectTotalTracks,
@@ -136,6 +158,12 @@ export const selectTrackEndTime = (state, trackId) => {
 };
 
 export const selectActiveItemId = (state) => state.storyboard.activeItemId;
+
+export const selectActiveTrackId = createSelector(
+  selectAllItems,
+  selectActiveItemId,
+  (items, itemId) => items[itemId]?.trackId
+);
 
 export const selectIsActive = (state, id) => {
   return selectActiveItemId(state) === id;

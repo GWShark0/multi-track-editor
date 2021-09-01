@@ -5,14 +5,21 @@ import {
   moveItem,
   removeItem,
   selectActiveItemId,
-  selectLastTrackId,
+  selectActiveTrackId,
+  selectNextTrackId,
+  selectPreviousTrackId,
 } from './storyboardSlice';
 
 export default function TimelineControls() {
   const dispatch = useDispatch();
   const activeItemId = useSelector(selectActiveItemId);
-  const lastTrackId = useSelector(selectLastTrackId);
-
+  const activeTrackId = useSelector(selectActiveTrackId);
+  const nextTrackId = useSelector((state) =>
+    selectNextTrackId(state, activeTrackId)
+  );
+  const previousTrackId = useSelector((state) =>
+    selectPreviousTrackId(state, activeTrackId)
+  );
   const canDelete = !!activeItemId;
 
   const handleDeleteClick = () => {
@@ -20,11 +27,11 @@ export default function TimelineControls() {
   };
 
   const handleMoveUpClick = () => {
-    console.log('move up!');
+    dispatch(moveItem({ id: activeItemId, trackId: previousTrackId }));
   };
 
   const handleMoveDownClick = () => {
-    dispatch(moveItem({ id: activeItemId, trackId: lastTrackId }));
+    dispatch(moveItem({ id: activeItemId, trackId: nextTrackId }));
   };
 
   return (
@@ -34,8 +41,16 @@ export default function TimelineControls() {
         disabled={!canDelete}
         onClick={handleDeleteClick}
       />
-      <IconButton icon={ArrowUpIcon} disabled onClick={handleMoveUpClick} />
-      <IconButton icon={ArrowDownIcon} onClick={handleMoveDownClick} />
+      <IconButton
+        icon={ArrowUpIcon}
+        disabled={!previousTrackId}
+        onClick={handleMoveUpClick}
+      />
+      <IconButton
+        icon={ArrowDownIcon}
+        disabled={!nextTrackId}
+        onClick={handleMoveDownClick}
+      />
     </div>
   );
 }

@@ -8,6 +8,8 @@ import reducer, {
   selectActiveId,
   selectIsActive,
   selectLastTrackId,
+  selectNextTrackId,
+  selectPreviousTrackId,
   setActiveId,
 } from './storyboardSlice';
 
@@ -228,4 +230,80 @@ it('should move an item to a track that already has an item', () => {
   );
 
   // console.log(JSON.stringify(state, null, 2));
+});
+
+describe('selectNextTrackId', () => {
+  it('should select next track id', () => {
+    const previousState = {
+      storyboard: {
+        tracks: {
+          ids: ['trackA', 'trackB'],
+        },
+      },
+    };
+
+    expect(selectNextTrackId(previousState, 'trackA')).toBe('trackB');
+  });
+
+  it('should return undefined for last track', () => {
+    const previousState = {
+      storyboard: {
+        tracks: {
+          ids: ['trackA'],
+        },
+      },
+    };
+
+    expect(selectNextTrackId(previousState, 'trackA')).toBeUndefined();
+  });
+
+  it('should return undefined for empty track', () => {
+    const previousState = {
+      storyboard: {
+        tracks: {
+          ids: [],
+        },
+      },
+    };
+
+    expect(selectNextTrackId(previousState, 'test')).toBeUndefined();
+  });
+});
+
+describe('selectPreviousTrackId', () => {
+  it('should select previous track id', () => {
+    const previousState = {
+      storyboard: {
+        tracks: {
+          ids: ['trackA', 'trackB'],
+        },
+      },
+    };
+
+    expect(selectPreviousTrackId(previousState, 'trackB')).toBe('trackA');
+  });
+
+  it('should return undefined for first track', () => {
+    const previousState = {
+      storyboard: {
+        tracks: {
+          ids: ['trackA'],
+        },
+      },
+    };
+
+    expect(selectPreviousTrackId(previousState, 'trackA')).toBeUndefined();
+  });
+
+  it('should return undefined for empty track', () => {
+    const previousState = {
+      storyboard: {
+        tracks: {
+          ids: [],
+        },
+      },
+    };
+
+    expect(selectPreviousTrackId(previousState, 'test')).toBeUndefined();
+  });
 });

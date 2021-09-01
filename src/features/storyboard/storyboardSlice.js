@@ -64,7 +64,7 @@ export const storyboardSlice = createSlice({
       const track = state.tracks.entities[trackId];
 
       pull(track.itemIds, itemId);
-      itemsAdapter.removeOne(state.items, action);
+      itemsAdapter.removeOne(state.items, itemId);
       delete state.activeItemId;
     },
     addTrack: (state) => {
@@ -77,7 +77,7 @@ export const storyboardSlice = createSlice({
 
       if (track.itemIds.length === 0) {
         itemsAdapter.removeMany(state.items, track.itemIds);
-        tracksAdapter.removeOne(state.tracks, action);
+        tracksAdapter.removeOne(state.tracks, trackId);
       }
     },
     setActiveItemId: (state, action) => {

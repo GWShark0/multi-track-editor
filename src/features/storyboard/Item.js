@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  LightningBoltIcon,
   MusicNoteIcon,
   PhotographIcon,
   VideoCameraIcon,
@@ -25,6 +26,7 @@ function Item({ itemId }) {
 
   const isAudio = type === MEDIA_TYPES.AUDIO;
   const isImage = type === MEDIA_TYPES.IMAGE;
+  const isOverlay = type === MEDIA_TYPES.OVERLAY;
   const isText = type === MEDIA_TYPES.TEXT;
   const isVideo = type === MEDIA_TYPES.VIDEO;
 
@@ -42,11 +44,12 @@ function Item({ itemId }) {
       className={clsx(
         'absolute left-0 top-0 h-full border-2 rounded bg-gray-500 border-gray-700 text-white flex items-center pl-2 cursor-pointer',
         {
+          'z-10': isActive,
           'bg-blue-500 border-blue-700 text-blue-700': isAudio,
           'bg-green-500 border-green-700 text-green-700': isImage,
-          'bg-red-500 border-red-700 text-red-700': isVideo,
+          'bg-pink-500 border-pink-700 text-pink-700': isOverlay,
           'bg-cyan-500 border-cyan-700 text-cyan-700': isText,
-          'z-10': isActive,
+          'bg-red-500 border-red-700 text-red-700': isVideo,
         }
       )}
       style={style}
@@ -55,8 +58,9 @@ function Item({ itemId }) {
       <div className={clsx({ 'text-yellow-100': isActive })}>
         {isAudio && <MusicNoteIcon className="w-6 h-6" />}
         {isImage && <PhotographIcon className="w-6 h-6" />}
-        {isVideo && <VideoCameraIcon className="w-6 h-6" />}
+        {isOverlay && <LightningBoltIcon className="w-6 h-6" />}
         {isText && <TextIcon className="w-6 h-6 fill-current" />}
+        {isVideo && <VideoCameraIcon className="w-6 h-6" />}
       </div>
       {isActive && (
         <div className="absolute inset-0 border-2 border-yellow-100 rounded" />

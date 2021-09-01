@@ -3,6 +3,7 @@ import Button from 'components/Button';
 import {
   createAudioItem,
   createImageItem,
+  createOverlayItem,
   createTextItem,
   createVideoItem,
 } from './media';
@@ -18,20 +19,24 @@ export default function MediaControls() {
   const endTime = useSelector((state) => selectTrackEndTime(state, trackId));
   const item = { startTime: endTime, trackId };
 
-  const handleVideoButtonClick = () => {
-    dispatch(addItem(createVideoItem(item)));
+  const handleAudioButtonClick = () => {
+    dispatch(addItem(createAudioItem(item)));
   };
 
   const handleImageButtonClick = () => {
     dispatch(addItem(createImageItem(item)));
   };
 
-  const handleAudioButtonClick = () => {
-    dispatch(addItem(createAudioItem(item)));
+  const handleOverlayButtonClick = () => {
+    dispatch(addItem(createOverlayItem(item)));
   };
 
   const handleTextButtonClick = () => {
     dispatch(addItem(createTextItem(item)));
+  };
+
+  const handleVideoButtonClick = () => {
+    dispatch(addItem(createVideoItem(item)));
   };
 
   return (
@@ -40,6 +45,7 @@ export default function MediaControls() {
       <Button onClick={handleVideoButtonClick}>Add Video</Button>
       <Button onClick={handleImageButtonClick}>Add Image</Button>
       <Button onClick={handleAudioButtonClick}>Add Audio</Button>
+      <Button onClick={handleOverlayButtonClick}>Add Overlay</Button>
     </div>
   );
 }

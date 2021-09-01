@@ -5,12 +5,14 @@ import {
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { MEDIA_TYPES } from './media';
 import {
   selectIsActive,
   setActiveItemId,
   setActiveTrackId,
 } from './storyboardSlice';
+import { ReactComponent as TextIcon } from 'assets/text.svg';
 
 const PX_PER_SEC = 80;
 
@@ -20,6 +22,7 @@ export default function Item(props) {
   const isActive = useSelector((state) => selectIsActive(state, id));
   const isAudio = type === MEDIA_TYPES.AUDIO;
   const isImage = type === MEDIA_TYPES.IMAGE;
+  const isText = type === MEDIA_TYPES.TEXT;
   const isVideo = type === MEDIA_TYPES.VIDEO;
 
   const handleClick = () => {
@@ -40,6 +43,8 @@ export default function Item(props) {
           'bg-blue-500 border-blue-700 text-blue-700': isAudio,
           'bg-green-500 border-green-700 text-green-700': isImage,
           'bg-red-500 border-red-700 text-red-700': isVideo,
+          'bg-cyan-500 border-cyan-700 text-cyan-700': isText,
+          'z-10': isActive,
         }
       )}
       style={style}
@@ -49,6 +54,7 @@ export default function Item(props) {
         {isAudio && <MusicNoteIcon className="w-6 h-6" />}
         {isImage && <PhotographIcon className="w-6 h-6" />}
         {isVideo && <VideoCameraIcon className="w-6 h-6" />}
+        {isText && <TextIcon className="w-6 h-6 fill-current" />}
       </div>
       {isActive && (
         <div className="absolute inset-0 border-2 border-yellow-100 rounded" />

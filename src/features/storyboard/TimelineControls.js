@@ -1,5 +1,11 @@
 import IconButton from 'components/IconButton';
-import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from '@heroicons/react/solid';
+import {
+  ArrowDownIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowUpIcon,
+  TrashIcon,
+} from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   moveItem,
@@ -8,6 +14,7 @@ import {
   selectActiveTrackId,
   selectNextTrackId,
   selectPreviousTrackId,
+  updateItem,
 } from './storyboardSlice';
 
 export default function TimelineControls() {
@@ -34,6 +41,14 @@ export default function TimelineControls() {
     dispatch(moveItem({ id: activeItemId, trackId: nextTrackId }));
   };
 
+  const handleMoveRightClick = () => {
+    dispatch(updateItem({ id: activeItemId, delta: 1 }));
+  };
+
+  const handleMoveLeftClick = () => {
+    dispatch(updateItem({ id: activeItemId, delta: -1 }));
+  };
+
   return (
     <div className="flex p-2 space-x-2 bg-gray-400">
       <IconButton
@@ -50,6 +65,16 @@ export default function TimelineControls() {
         icon={ArrowDownIcon}
         disabled={!nextTrackId}
         onClick={handleMoveDownClick}
+      />
+      <IconButton
+        icon={ArrowLeftIcon}
+        disabled={!activeItemId}
+        onClick={handleMoveLeftClick}
+      />
+      <IconButton
+        icon={ArrowRightIcon}
+        disabled={!activeItemId}
+        onClick={handleMoveRightClick}
       />
     </div>
   );

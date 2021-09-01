@@ -1,6 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'components/Button';
-import { createAudioItem, createImageItem, createVideoItem } from './media';
+import {
+  createAudioItem,
+  createImageItem,
+  createTextItem,
+  createVideoItem,
+} from './media';
 import {
   addItem,
   selectFirstTrackId,
@@ -11,21 +16,27 @@ export default function MediaControls() {
   const dispatch = useDispatch();
   const trackId = useSelector(selectFirstTrackId);
   const endTime = useSelector((state) => selectTrackEndTime(state, trackId));
+  const item = { startTime: endTime, trackId };
 
   const handleVideoButtonClick = () => {
-    dispatch(addItem(createVideoItem({ startTime: endTime, trackId })));
+    dispatch(addItem(createVideoItem(item)));
   };
 
   const handleImageButtonClick = () => {
-    dispatch(addItem(createImageItem({ startTime: endTime, trackId })));
+    dispatch(addItem(createImageItem(item)));
   };
 
   const handleAudioButtonClick = () => {
-    dispatch(addItem(createAudioItem({ startTime: endTime, trackId })));
+    dispatch(addItem(createAudioItem(item)));
+  };
+
+  const handleTextButtonClick = () => {
+    dispatch(addItem(createTextItem(item)));
   };
 
   return (
     <div className="space-x-2">
+      <Button onClick={handleTextButtonClick}>Add Text</Button>
       <Button onClick={handleVideoButtonClick}>Add Video</Button>
       <Button onClick={handleImageButtonClick}>Add Image</Button>
       <Button onClick={handleAudioButtonClick}>Add Audio</Button>

@@ -64,6 +64,17 @@ export const storyboardSlice = createSlice({
 
       itemsAdapter.updateOne(state.items, { id, changes: { trackId } });
     },
+    updateItem: (state, action) => {
+      const { id, delta } = action.payload;
+
+      if (!id) {
+        return state;
+      }
+
+      const startTime = Math.max(0, state.items.entities[id].startTime + delta);
+
+      itemsAdapter.updateOne(state.items, { id, changes: { startTime } });
+    },
     removeItem: (state, action) => {
       const itemId = action.payload;
 
@@ -101,6 +112,7 @@ export const {
   addItem,
   addTrack,
   moveItem,
+  updateItem,
   removeItem,
   removeTrack,
   setActiveItemId,

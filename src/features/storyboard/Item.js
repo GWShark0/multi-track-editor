@@ -47,9 +47,9 @@ function Item({ itemId }) {
           'z-10': isActive,
           'bg-blue-500 border-blue-700 text-blue-700': isAudio,
           'bg-green-500 border-green-700 text-green-700': isImage,
-          'bg-pink-500 border-pink-700 text-pink-700': isOverlay,
-          'bg-cyan-500 border-cyan-700 text-cyan-700': isText,
-          'bg-red-500 border-red-700 text-red-700': isVideo,
+          'bg-red-500 border-red-700 text-red-700': isOverlay,
+          'bg-purple-500 border-purple-700 text-purple-700': isText,
+          'bg-cyan-500 border-cyan-700 text-cyan-700': isVideo,
         }
       )}
       style={style}

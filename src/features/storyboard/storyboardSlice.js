@@ -2,6 +2,7 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
+  current,
   // current,
 } from '@reduxjs/toolkit';
 import { first, last, pull } from 'lodash';
@@ -46,45 +47,40 @@ export const storyboardSlice = createSlice({
       });
 
       state.activeItemId = id;
-      state.activeTrackId = trackId;
     },
     moveItem: (state, action) => {
-      const { id, trackId } = action.payload;
+      const { itemId, fromTrackId, toTrackId } = action.payload;
+      const fromTrack = state.tracks.entities[fromTrackId];
+      const toTrack = state.tracks.entities[toTrackId];
 
-      if (!id || !trackId) {
-        return state;
-      }
+      pull(fromTrack.itemIds, itemId);
+      toTrack.itemIds.push(itemId);
 
-      const { trackId: oldTrackId } = state.items.entities[id];
-      const oldTrack = state.tracks.entities[oldTrackId];
-      const newTrack = state.tracks.entities[trackId];
-
-      pull(oldTrack.itemIds, id);
-      newTrack.itemIds.push(id);
-
-      itemsAdapter.updateOne(state.items, { id, changes: { trackId } });
+      itemsAdapter.updateOne(state.items, {
+        id: itemId,
+        changes: { trackId: toTrackId },
+      });
     },
     updateItem: (state, action) => {
-      const { id, delta } = action.payload;
+      const { itemId, delta } = action.payload;
 
-      if (!id) {
-        return state;
-      }
+      const startTime = Math.max(
+        0,
+        state.items.entities[itemId].startTime + delta
+      );
 
-      const startTime = Math.max(0, state.items.entities[id].startTime + delta);
-
-      itemsAdapter.updateOne(state.items, { id, changes: { startTime } });
+      itemsAdapter.updateOne(state.items, {
+        id: itemId,
+        changes: { startTime },
+      });
     },
     removeItem: (state, action) => {
-      const itemId = action.payload;
-
-      const { trackId } = state.items.entities[itemId];
+      const { itemId, trackId } = action.payload;
       const track = state.tracks.entities[trackId];
 
       pull(track.itemIds, itemId);
       itemsAdapter.removeOne(state.items, action);
       delete state.activeItemId;
-      delete state.activeTrackId;
     },
     addTrack: (state) => {
       const id = nanoid();
@@ -92,7 +88,6 @@ export const storyboardSlice = createSlice({
     },
     removeTrack: (state, action) => {
       const trackId = action.payload;
-
       const track = state.tracks.entities[trackId];
 
       itemsAdapter.removeMany(state.items, track.itemIds);

@@ -30,23 +30,35 @@ export default function TimelineControls() {
   const canDelete = !!activeItemId;
 
   const handleDeleteClick = () => {
-    dispatch(removeItem(activeItemId));
+    dispatch(removeItem({ itemId: activeItemId, trackId: activeTrackId }));
   };
 
   const handleMoveUpClick = () => {
-    dispatch(moveItem({ id: activeItemId, trackId: previousTrackId }));
+    dispatch(
+      moveItem({
+        itemId: activeItemId,
+        fromTrackId: activeTrackId,
+        toTrackId: previousTrackId,
+      })
+    );
   };
 
   const handleMoveDownClick = () => {
-    dispatch(moveItem({ id: activeItemId, trackId: nextTrackId }));
+    dispatch(
+      moveItem({
+        itemId: activeItemId,
+        fromTrackId: activeTrackId,
+        toTrackId: nextTrackId,
+      })
+    );
   };
 
   const handleMoveRightClick = () => {
-    dispatch(updateItem({ id: activeItemId, delta: 1 }));
+    dispatch(updateItem({ itemId: activeItemId, delta: 1 }));
   };
 
   const handleMoveLeftClick = () => {
-    dispatch(updateItem({ id: activeItemId, delta: -1 }));
+    dispatch(updateItem({ itemId: activeItemId, delta: -1 }));
   };
 
   return (

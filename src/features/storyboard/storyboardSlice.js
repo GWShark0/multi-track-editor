@@ -35,7 +35,6 @@ export const storyboardSlice = createSlice({
         id,
         duration,
         startTime,
-        trackId,
         type,
       });
 
@@ -48,23 +47,16 @@ export const storyboardSlice = createSlice({
 
       pull(fromTrack.itemIds, itemId);
       toTrack.itemIds.push(itemId);
-
-      itemsAdapter.updateOne(state.items, {
-        id: itemId,
-        changes: { trackId: toTrackId },
-      });
     },
     updateItem: (state, action) => {
       const { itemId, delta } = action.payload;
 
-      const startTime = Math.max(
-        0,
-        state.items.entities[itemId].startTime + delta
-      );
+      const { startTime } = state.items.entities[itemId];
+      const newstartTime = Math.max(0, startTime + delta);
 
       itemsAdapter.updateOne(state.items, {
         id: itemId,
-        changes: { startTime },
+        changes: { startTime: newstartTime },
       });
     },
     removeItem: (state, action) => {
@@ -83,8 +75,10 @@ export const storyboardSlice = createSlice({
       const trackId = action.payload;
       const track = state.tracks.entities[trackId];
 
-      itemsAdapter.removeMany(state.items, track.itemIds);
-      tracksAdapter.removeOne(state.tracks, action);
+      if (track.itemIds.length === 0) {
+        itemsAdapter.removeMany(state.items, track.itemIds);
+        tracksAdapter.removeOne(state.tracks, action);
+      }
     },
     setActiveItemId: (state, action) => {
       state.activeItemId = action.payload;
@@ -155,10 +149,14 @@ export const selectTrackEndTime = (state, trackId) => {
 
 export const selectActiveItemId = (state) => state.storyboard.activeItemId;
 
+function getTrackIdByItemId(tracks = [], itemId) {
+  return tracks.find((track) => track.itemIds.includes(itemId))?.id;
+}
+
 export const selectActiveTrackId = createSelector(
-  selectAllItems,
+  selectAllTracks,
   selectActiveItemId,
-  (items, itemId) => items[itemId]?.trackId
+  getTrackIdByItemId
 );
 
 export const selectIsActive = (state, id) => {

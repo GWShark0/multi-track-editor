@@ -101,9 +101,6 @@ export const storyboardSlice = createSlice({
     setActiveItemId: (state, action) => {
       state.activeItemId = action.payload;
     },
-    setActiveTrackId: (state, action) => {
-      state.activeTrackId = action.payload;
-    },
   },
 });
 

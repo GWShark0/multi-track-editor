@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   MusicNoteIcon,
   PhotographIcon,
@@ -9,25 +10,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MEDIA_TYPES } from './media';
 import {
   selectIsActive,
+  selectItemById,
   setActiveItemId,
-  setActiveTrackId,
 } from './storyboardSlice';
 import { ReactComponent as TextIcon } from 'assets/text.svg';
 
 const PX_PER_SEC = 80;
 
-export default function Item(props) {
-  const { id, duration = 1, startTime = 0, trackId, type } = props;
+function Item({ itemId }) {
   const dispatch = useDispatch();
-  const isActive = useSelector((state) => selectIsActive(state, id));
+  const isActive = useSelector((state) => selectIsActive(state, itemId));
+  const item = useSelector((state) => selectItemById(state, itemId));
+  const { duration = 1, startTime = 0, type } = item;
+
   const isAudio = type === MEDIA_TYPES.AUDIO;
   const isImage = type === MEDIA_TYPES.IMAGE;
   const isText = type === MEDIA_TYPES.TEXT;
   const isVideo = type === MEDIA_TYPES.VIDEO;
 
   const handleClick = () => {
-    dispatch(setActiveItemId(id));
-    dispatch(setActiveTrackId(trackId));
+    dispatch(setActiveItemId(itemId));
   };
 
   const style = {
@@ -62,3 +64,5 @@ export default function Item(props) {
     </div>
   );
 }
+
+export default React.memo(Item);

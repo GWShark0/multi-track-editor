@@ -31,8 +31,7 @@ export default function Timeline() {
       <TimelineControls />
       <div className=" p-8 space-y-2 overflow-scroll">
         {tracks.map((track) => {
-          const { id } = track;
-          return <Track id={id} key={id} />;
+          return <Track trackId={track.id} key={track.id} />;
         })}
         <div className="flex justify-end space-x-1">
           {canRemoveTracks && (

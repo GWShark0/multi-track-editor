@@ -27,14 +27,7 @@ export const storyboardSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const {
-        id = nanoid(),
-        duration = 1,
-        startTime,
-        trackId,
-        type,
-      } = action.payload;
-
+      const { duration, id, startTime, trackId, type } = action.payload;
       const track = state.tracks.entities[trackId];
 
       track.itemIds.push(id);
@@ -108,7 +101,6 @@ export const {
   removeItem,
   removeTrack,
   setActiveItemId,
-  setActiveTrackId,
 } = storyboardSlice.actions;
 
 // selectors

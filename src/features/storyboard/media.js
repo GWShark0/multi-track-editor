@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 export const MEDIA_TYPES = {
   AUDIO: 'audio',
   IMAGE: 'image',
@@ -7,7 +9,7 @@ export const MEDIA_TYPES = {
 };
 
 function item(type, props) {
-  return { type, ...props };
+  return { id: nanoid(), type, duration: 1, startTime: 0, ...props };
 }
 
 export function createAudioItem(props) {

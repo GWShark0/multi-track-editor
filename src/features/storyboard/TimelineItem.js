@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import {
   LightningBoltIcon,
   MusicNoteIcon,
@@ -45,11 +45,10 @@ function TimelineItem({ itemId }) {
         'absolute left-0 top-0 h-full border-2 rounded bg-gray-500 border-gray-700 text-white flex items-center pl-2 cursor-pointer',
         {
           'z-10': isActive,
-          'bg-blue-500 border-blue-700 text-blue-700': isAudio,
-          'bg-green-500 border-green-700 text-green-700': isImage,
-          'bg-red-500 border-red-700 text-red-700': isOverlay,
-          'bg-purple-500 border-purple-700 text-purple-700': isText,
-          'bg-cyan-500 border-cyan-700 text-cyan-700': isVideo,
+          'bg-indigo-500 border-indigo-700 text-indigo-700': isAudio,
+          'bg-pink-500 border-pink-700 text-pink-700': isText || isOverlay,
+          'bg-emerald-500 border-emerald-700 text-emerald-700':
+            isVideo || isImage,
         }
       )}
       style={style}
@@ -69,4 +68,4 @@ function TimelineItem({ itemId }) {
   );
 }
 
-export default React.memo(TimelineItem);
+export default memo(TimelineItem);

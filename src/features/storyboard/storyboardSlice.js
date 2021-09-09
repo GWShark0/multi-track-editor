@@ -26,7 +26,7 @@ export const storyboardSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { duration, id, startTime, trackId, type } = action.payload;
+      const { duration, id, startTime, trackId, mediaType } = action.payload;
       const track = state.tracks.entities[trackId];
 
       track.itemIds.push(id);
@@ -34,7 +34,7 @@ export const storyboardSlice = createSlice({
         id,
         duration,
         startTime,
-        type,
+        mediaType,
       });
 
       state.activeItemId = id;

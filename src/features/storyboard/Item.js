@@ -22,13 +22,13 @@ function Item({ itemId }) {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => selectIsActive(state, itemId));
   const item = useSelector((state) => selectItemById(state, itemId));
-  const { duration = 1, startTime = 0, type } = item;
+  const { duration = 1, startTime = 0, mediaType } = item;
 
-  const isAudio = type === MEDIA_TYPES.AUDIO;
-  const isImage = type === MEDIA_TYPES.IMAGE;
-  const isOverlay = type === MEDIA_TYPES.OVERLAY;
-  const isText = type === MEDIA_TYPES.TEXT;
-  const isVideo = type === MEDIA_TYPES.VIDEO;
+  const isAudio = mediaType === MEDIA_TYPES.AUDIO;
+  const isImage = mediaType === MEDIA_TYPES.IMAGE;
+  const isOverlay = mediaType === MEDIA_TYPES.OVERLAY;
+  const isText = mediaType === MEDIA_TYPES.TEXT;
+  const isVideo = mediaType === MEDIA_TYPES.VIDEO;
 
   const handleClick = () => {
     dispatch(setActiveItemId(itemId));

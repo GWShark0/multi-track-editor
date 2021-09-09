@@ -8,8 +8,8 @@ export const MEDIA_TYPES = {
   VIDEO: 'video',
 };
 
-function item(type, props) {
-  return { id: nanoid(), type, duration: 1, startTime: 0, ...props };
+function item(mediaType, props) {
+  return { id: nanoid(), mediaType, duration: 1, startTime: 0, ...props };
 }
 
 export function createAudioItem(props) {

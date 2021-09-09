@@ -18,7 +18,7 @@ import { ReactComponent as TextIcon } from 'assets/text.svg';
 
 const PX_PER_SEC = 80;
 
-function Item({ itemId }) {
+function TimelineItem({ itemId }) {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => selectIsActive(state, itemId));
   const item = useSelector((state) => selectItemById(state, itemId));
@@ -69,4 +69,4 @@ function Item({ itemId }) {
   );
 }
 
-export default React.memo(Item);
+export default React.memo(TimelineItem);

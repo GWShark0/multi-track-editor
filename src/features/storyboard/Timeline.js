@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { selectAllTracks } from './storyboardSlice';
 
 import TimelineControls from './TimelineControls';
-import Track from './Track';
+import TimelineTrack from './TimelineTrack';
 
 export default function Timeline() {
   const tracks = useSelector(selectAllTracks);
@@ -12,7 +12,7 @@ export default function Timeline() {
       <TimelineControls />
       <div className=" p-8 space-y-2 overflow-scroll">
         {tracks.map((track) => {
-          return <Track trackId={track.id} key={track.id} />;
+          return <TimelineTrack trackId={track.id} key={track.id} />;
         })}
       </div>
     </div>

@@ -1,9 +1,10 @@
+import { useDroppable } from '@dnd-kit/core';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
-import { TRACK_TYPES } from './media';
 
-import { selectItemsByTrack, selectTrackById } from './storyboardSlice';
 import TimelineItem from './TimelineItem';
+import { TRACK_TYPES } from './media';
+import { selectItemsByTrack, selectTrackById } from './storyboardSlice';
 
 export default function TimelineTrack({ trackId }) {
   const track = useSelector((state) => selectTrackById(state, trackId));
@@ -11,6 +12,10 @@ export default function TimelineTrack({ trackId }) {
     selectItemsByTrack(state, trackId)
   );
   const { type } = track;
+
+  const { setNodeRef } = useDroppable({
+    id: `track-${trackId}`,
+  });
 
   const isAudioTrack = type === TRACK_TYPES.AUDIO;
   const isTextTrack = type === TRACK_TYPES.TEXT;
@@ -23,6 +28,7 @@ export default function TimelineTrack({ trackId }) {
         'bg-pink-100': isTextTrack,
         'bg-emerald-100': isVideoTrack,
       })}
+      ref={setNodeRef}
     >
       {itemsForTrack.map((item) => {
         return <TimelineItem itemId={item.id} key={item.id} />;

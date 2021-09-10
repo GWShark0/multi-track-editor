@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
-import { selectAllTracks } from './storyboardSlice';
 
 import TimelineControls from './TimelineControls';
 import TimelineTrack from './TimelineTrack';
+import { selectAllTracks } from './storyboardSlice';
 
 export default function Timeline() {
   const tracks = useSelector(selectAllTracks);

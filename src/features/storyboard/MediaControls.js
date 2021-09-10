@@ -1,11 +1,16 @@
 import { useDispatch } from 'react-redux';
+
 import Button from 'components/Button';
+
+import Draggable from './Draggable';
+import MediaItem from './MediaItem';
 import {
   createAudioItem,
   createImageItem,
   createOverlayItem,
   createTextItem,
   createVideoItem,
+  MEDIA_TYPES,
 } from './media';
 import { addItem } from './storyboardSlice';
 
@@ -33,12 +38,12 @@ export default function MediaControls() {
   };
 
   return (
-    <div className="space-x-2">
-      <Button onClick={handleTextButtonClick}>Add Text</Button>
-      <Button onClick={handleVideoButtonClick}>Add Video</Button>
-      <Button onClick={handleImageButtonClick}>Add Image</Button>
-      <Button onClick={handleAudioButtonClick}>Add Audio</Button>
-      <Button onClick={handleOverlayButtonClick}>Add Overlay</Button>
+    <div className="flex space-x-2 select-none">
+      <MediaItem type={MEDIA_TYPES.TEXT} label="Text" />
+      <MediaItem type={MEDIA_TYPES.VIDEO} label="Video" />
+      <MediaItem type={MEDIA_TYPES.IMAGE} label="Image" />
+      <MediaItem type={MEDIA_TYPES.AUDIO} label="Audio" />
+      <MediaItem type={MEDIA_TYPES.OVERLAY} label="Overlay" />
     </div>
   );
 }

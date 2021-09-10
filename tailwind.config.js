@@ -21,7 +21,12 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.purple,
     },
-    extend: {},
+    extend: {
+      cursor: {
+        grab: 'grab',
+        grabbing: 'grabbing',
+      },
+    },
   },
   variants: {
     extend: {
@@ -33,5 +38,5 @@ module.exports = {
       ringOffsetColor: ['focus-visible'],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/aspect-ratio')],
 };

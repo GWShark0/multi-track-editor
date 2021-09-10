@@ -1,4 +1,3 @@
-import IconButton from 'components/IconButton';
 import {
   ArrowDownIcon,
   ArrowLeftIcon,
@@ -8,6 +7,9 @@ import {
 } from '@heroicons/react/solid';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useDispatch, useSelector } from 'react-redux';
+
+import IconButton from 'components/IconButton';
+
 import {
   moveItem,
   removeItem,

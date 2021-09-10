@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 const COLORS = {
   BLUE: 'blue',
+  GREEN: 'green',
   RED: 'red',
 };
 
@@ -12,6 +14,7 @@ const SIZES = {
 
 export default function IconButton(props) {
   const {
+    className,
     color,
     icon: Icon,
     onClick,
@@ -26,11 +29,13 @@ export default function IconButton(props) {
         'flex text-white rounded hover:bg-gray-600 bg-gray-500 disabled:opacity-50 disabled:pointer-events-none',
         {
           'hover:bg-blue-600 bg-blue-500': color === COLORS.BLUE,
+          'hover:bg-green-600 bg-green-500': color === COLORS.GREEN,
           'hover:bg-red-600 bg-red-500': color === COLORS.RED,
           'p-1': size === SIZES.SMALL,
           'p-2': size === SIZES.MEDIUM,
           'rounded-full': round,
-        }
+        },
+        className
       )}
       onClick={onClick}
       {...rest}
@@ -46,3 +51,11 @@ export default function IconButton(props) {
     </button>
   );
 }
+
+IconButton.propTypes = {
+  color: PropTypes.oneOf([COLORS.BLUE, COLORS.GREEN, COLORS.RED]),
+  icon: PropTypes.elementType,
+  onClick: PropTypes.func,
+  round: PropTypes.bool,
+  size: PropTypes.oneOf([SIZES.SMALL, SIZES.MEDIUM]),
+};

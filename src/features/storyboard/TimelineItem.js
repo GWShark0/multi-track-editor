@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import {
   LightningBoltIcon,
   MusicNoteIcon,
@@ -6,7 +5,10 @@ import {
   VideoCameraIcon,
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { ReactComponent as TextIcon } from 'assets/text.svg';
 
 import { MEDIA_TYPES } from './media';
 import {
@@ -14,7 +16,6 @@ import {
   selectItemById,
   setActiveItemId,
 } from './storyboardSlice';
-import { ReactComponent as TextIcon } from 'assets/text.svg';
 
 const PX_PER_SEC = 80;
 

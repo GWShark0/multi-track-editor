@@ -1,11 +1,11 @@
 import {
   createEntityAdapter,
   createSelector,
-  createSlice,
-  // current,
+  createSlice, // current,
 } from '@reduxjs/toolkit';
 import { find, first, isEmpty, last, maxBy, pick, pull, toArray } from 'lodash';
 import { nanoid } from 'nanoid';
+
 import { mapMediaToTrack } from './media';
 
 const itemsAdapter = createEntityAdapter();
@@ -13,12 +13,12 @@ const tracksAdapter = createEntityAdapter();
 
 const initialState = {
   items: itemsAdapter.getInitialState(),
-  // tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
-  //   { id: nanoid(), type: 'text', itemIds: [] },
-  //   { id: nanoid(), type: 'video', itemIds: [] },
-  //   { id: nanoid(), type: 'audio', itemIds: [] },
-  // ]),
-  tracks: tracksAdapter.getInitialState(),
+  tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
+    { id: nanoid(), type: 'text', itemIds: [] },
+    { id: nanoid(), type: 'video', itemIds: [] },
+    { id: nanoid(), type: 'audio', itemIds: [] },
+  ]),
+  // tracks: tracksAdapter.getInitialState(),
 };
 
 function addTrack(state, type) {

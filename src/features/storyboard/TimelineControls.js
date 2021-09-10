@@ -6,6 +6,7 @@ import {
   ArrowUpIcon,
   TrashIcon,
 } from '@heroicons/react/solid';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   moveItem,
@@ -29,9 +30,17 @@ export default function TimelineControls() {
   );
   const canDelete = !!activeItemId;
 
-  const handleDeleteClick = () => {
-    dispatch(removeItem({ itemId: activeItemId, trackId: activeTrackId }));
+  const deleteItem = () => {
+    if (activeItemId && activeTrackId) {
+      dispatch(removeItem({ itemId: activeItemId, trackId: activeTrackId }));
+    }
   };
+
+  const handleDeleteClick = () => deleteItem();
+  useHotkeys('backspace', () => deleteItem(), {}, [
+    activeItemId,
+    activeTrackId,
+  ]);
 
   const handleMoveUpClick = () => {
     dispatch(

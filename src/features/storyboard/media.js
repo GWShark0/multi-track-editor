@@ -14,7 +14,7 @@ export const TRACK_TYPES = {
   VIDEO: 'video',
 };
 
-function item(mediaType, props) {
+function item(mediaType, props = {}) {
   return { id: nanoid(), mediaType, duration: 1, startTime: 0, ...props };
 }
 

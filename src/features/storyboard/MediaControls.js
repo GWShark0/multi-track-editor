@@ -7,36 +7,29 @@ import {
   createTextItem,
   createVideoItem,
 } from './media';
-import {
-  addItem,
-  selectFirstTrackId,
-  selectTrackEndTime,
-} from './storyboardSlice';
+import { addItem } from './storyboardSlice';
 
 export default function MediaControls() {
   const dispatch = useDispatch();
-  const trackId = useSelector(selectFirstTrackId);
-  const endTime = useSelector((state) => selectTrackEndTime(state, trackId));
-  const item = { startTime: endTime, trackId };
 
   const handleAudioButtonClick = () => {
-    dispatch(addItem(createAudioItem(item)));
+    dispatch(addItem(createAudioItem()));
   };
 
   const handleImageButtonClick = () => {
-    dispatch(addItem(createImageItem(item)));
+    dispatch(addItem(createImageItem()));
   };
 
   const handleOverlayButtonClick = () => {
-    dispatch(addItem(createOverlayItem(item)));
+    dispatch(addItem(createOverlayItem()));
   };
 
   const handleTextButtonClick = () => {
-    dispatch(addItem(createTextItem(item)));
+    dispatch(addItem(createTextItem()));
   };
 
   const handleVideoButtonClick = () => {
-    dispatch(addItem(createVideoItem(item)));
+    dispatch(addItem(createVideoItem()));
   };
 
   return (

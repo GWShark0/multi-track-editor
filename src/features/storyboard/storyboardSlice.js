@@ -51,14 +51,19 @@ export const storyboardSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const { duration, id, mediaType } = action.payload;
-      const item = { id, mediaType, duration };
-      const trackId = findTrackForMediaType(state, item.mediaType);
+      let { trackId } = action.payload;
+
+      if (!trackId) {
+        trackId = findTrackForMediaType(state, mediaType);
+      }
+
       const startTime = calculateTrackEndTime(state, trackId);
 
       const track = state.tracks.entities[trackId];
       track.itemIds.push(id);
 
-      itemsAdapter.addOne(state.items, { ...item, startTime });
+      const item = { duration, id, mediaType, startTime };
+      itemsAdapter.addOne(state.items, item);
 
       state.activeItemId = id;
     },

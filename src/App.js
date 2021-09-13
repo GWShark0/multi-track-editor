@@ -4,17 +4,26 @@ import { useDispatch } from 'react-redux';
 
 import MediaControls from 'features/storyboard/MediaControls';
 import Timeline from 'features/storyboard/Timeline';
+import { createItem } from 'features/storyboard/media';
+import { addItem } from 'features/storyboard/storyboardSlice';
 
 export default function App() {
   const dispatch = useDispatch();
 
   const handleDragEnd = (event) => {
-    if (event.over && startsWith(event.over.id, 'track')) {
-      const mediaType = event.active.id.replace('media-item-', '');
-      const trackId = event.over.id.replace('track-', '');
+    const { active, over } = event;
 
-      console.log('mediaType:', mediaType);
-      console.log('trackId:', trackId);
+    if (!over) {
+      return;
+    }
+
+    if (startsWith(over.id, 'track')) {
+      const mediaType = active.id.replace('media-item-', '');
+      const trackId = over.id.replace('track-', '');
+
+      if (over.data.current.accepts.includes(active.data.current.type)) {
+        dispatch(addItem(createItem(mediaType, { trackId })));
+      }
     }
   };
 

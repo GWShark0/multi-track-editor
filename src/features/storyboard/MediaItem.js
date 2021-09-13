@@ -6,7 +6,7 @@ export default function MediaItem(props) {
   const { label, type } = props;
   const id = `media-item-${type}`;
   const { attributes, isDragging, listeners, setNodeRef, transform } =
-    useDraggable({ id });
+    useDraggable({ id, data: { type } });
 
   const style = { transform: CSS.Translate.toString(transform) };
 

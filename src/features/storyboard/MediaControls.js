@@ -1,8 +1,5 @@
 import { useDispatch } from 'react-redux';
 
-import Button from 'components/Button';
-
-import Draggable from './Draggable';
 import MediaItem from './MediaItem';
 import {
   createAudioItem,
@@ -13,6 +10,8 @@ import {
   MEDIA_TYPES,
 } from './media';
 import { addItem } from './storyboardSlice';
+
+// import Button from 'components/Button';
 
 export default function MediaControls() {
   const dispatch = useDispatch();
@@ -38,12 +37,12 @@ export default function MediaControls() {
   };
 
   return (
-    <div className="flex space-x-2 select-none">
-      <MediaItem type={MEDIA_TYPES.TEXT} label="Text" />
-      <MediaItem type={MEDIA_TYPES.VIDEO} label="Video" />
-      <MediaItem type={MEDIA_TYPES.IMAGE} label="Image" />
-      <MediaItem type={MEDIA_TYPES.AUDIO} label="Audio" />
-      <MediaItem type={MEDIA_TYPES.OVERLAY} label="Overlay" />
+    <div className="flex max-w-5xl space-x-2 select-none">
+      <MediaItem type={MEDIA_TYPES.text} label="Text" />
+      <MediaItem type={MEDIA_TYPES.video} label="Video" />
+      <MediaItem type={MEDIA_TYPES.image} label="Image" />
+      <MediaItem type={MEDIA_TYPES.audio} label="Audio" />
+      <MediaItem type={MEDIA_TYPES.overlay} label="Overlay" />
     </div>
   );
 }

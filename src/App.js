@@ -6,6 +6,8 @@ import Timeline from 'features/storyboard/Timeline';
 import { createItem } from 'features/storyboard/media';
 import { addItem, moveItem } from 'features/storyboard/storyboardSlice';
 
+import styles from './App.module.css';
+
 export default function App() {
   const dispatch = useDispatch();
 
@@ -52,7 +54,7 @@ export default function App() {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className="p-4">
+      <div className={styles.app}>
         <MediaControls />
         <Timeline />
       </div>

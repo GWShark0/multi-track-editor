@@ -10,16 +10,13 @@ module.exports = {
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
-      pink: colors.pink,
       red: colors.red,
-      orange: colors.orange,
       yellow: colors.yellow,
       green: colors.green,
       emerald: colors.emerald,
       blue: colors.blue,
-      cyan: colors.cyan,
       indigo: colors.indigo,
-      purple: colors.purple,
+      pink: colors.pink,
     },
     extend: {
       cursor: {

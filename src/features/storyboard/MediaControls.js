@@ -1,4 +1,5 @@
 // import { useDispatch } from 'react-redux';
+import styles from './MediaControls.module.css';
 import MediaItem from './MediaItem';
 import {
   // createAudioItem,
@@ -37,7 +38,7 @@ export default function MediaControls() {
   // };
 
   return (
-    <div className="flex max-w-5xl space-x-2 select-none">
+    <div className={styles.mediaControls}>
       <MediaItem type={MEDIA_TYPES.text} label="Text" />
       <MediaItem type={MEDIA_TYPES.video} label="Video" />
       <MediaItem type={MEDIA_TYPES.image} label="Image" />

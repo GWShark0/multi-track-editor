@@ -1,0 +1,56 @@
+.trackItem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+  height: 100%;
+  border-radius: 0.25rem;
+  background-color: var(--gray-500);
+  border: 2px solid var(--gray-700);
+  color: var(--white);
+  cursor: pointer;
+}
+
+[role='button'].dragging {
+  cursor: grabbing;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.blue {
+  background-color: var(--indigo-500);
+  border-color: var(--indigo-700);
+  color: var(--indigo-700);
+}
+
+.pink {
+  background-color: var(--pink-500);
+  border-color: var(--pink-700);
+  color: var(--pink-700);
+}
+
+.green {
+  background-color: var(--green-500);
+  border-color: var(--green-700);
+  color: var(--green-700);
+}
+
+.active {
+  z-index: var(--z-10);
+  color: var(--yellow-100);
+}
+
+.activeBorder {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  border: 2px solid currentColor;
+  border-radius: 0.25rem;
+}

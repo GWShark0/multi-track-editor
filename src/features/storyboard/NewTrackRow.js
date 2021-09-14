@@ -1,6 +1,8 @@
 import { useDroppable } from '@dnd-kit/core';
 import clsx from 'clsx';
 
+import styles from './NewTrackRow.module.css';
+
 export default function NewTrackRow(props) {
   const { index } = props;
 
@@ -14,10 +16,7 @@ export default function NewTrackRow(props) {
 
   return (
     <div
-      className={clsx(
-        'flex items-center justify-center h-10',
-        isOver && 'bg-blue-100'
-      )}
+      className={clsx(styles.newTrackRow, isOver && styles.over)}
       ref={setNodeRef}
     >
       {/* {index} */}

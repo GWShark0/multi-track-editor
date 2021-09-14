@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ReactComponent as TextIcon } from 'assets/text.svg';
 
+import styles from './TrackItem.module.css';
 import { MEDIA_TYPES } from './media';
 import {
   selectIsActive,
@@ -57,32 +58,25 @@ function TrackItem({ itemId, trackId }) {
 
   return (
     <div
-      className={clsx(
-        'absolute left-0 top-0 h-full border-2 rounded bg-gray-500 border-gray-700 text-white flex items-center pl-2 cursor-pointer',
-        {
-          'z-10': isActive,
-          'bg-indigo-500 border-indigo-700 text-indigo-700': isAudio,
-          'bg-pink-500 border-pink-700 text-pink-700': isText || isOverlay,
-          'bg-emerald-500 border-emerald-700 text-emerald-700':
-            isVideo || isImage,
-        }
-      )}
+      className={clsx(styles.trackItem, {
+        [styles.active]: isActive,
+        [styles.dragging]: isDragging,
+        [styles.blue]: isAudio,
+        [styles.pink]: isText || isOverlay,
+        [styles.green]: isVideo || isImage,
+      })}
       ref={setNodeRef}
       style={style}
       {...listeners}
       {...attributes}
       onClick={handleClick}
     >
-      <div className={clsx({ 'text-yellow-100': isActive })}>
-        {isAudio && <MusicNoteIcon className="w-6 h-6" />}
-        {isImage && <PhotographIcon className="w-6 h-6" />}
-        {isOverlay && <LightningBoltIcon className="w-6 h-6" />}
-        {isText && <TextIcon className="w-6 h-6 fill-current" />}
-        {isVideo && <VideoCameraIcon className="w-6 h-6" />}
-      </div>
-      {isActive && (
-        <div className="absolute inset-0 border-2 border-yellow-100 rounded" />
-      )}
+      {isAudio && <MusicNoteIcon className={styles.icon} />}
+      {isImage && <PhotographIcon className={styles.icon} />}
+      {isOverlay && <LightningBoltIcon className={styles.icon} />}
+      {isText && <TextIcon className={styles.icon} />}
+      {isVideo && <VideoCameraIcon className={styles.icon} />}
+      {isActive && <div className={styles.activeBorder} />}
     </div>
   );
 }

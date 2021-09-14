@@ -137,10 +137,6 @@ export const storyboardSlice = createSlice({
 
       pull(track.itemIds, itemId);
 
-      // if (isEmpty(track.itemIds)) {
-      //   tracksAdapter.removeOne(state.tracks, trackId);
-      // }
-
       itemsAdapter.removeOne(state.items, itemId);
       delete state.activeItemId;
 

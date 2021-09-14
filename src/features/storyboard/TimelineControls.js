@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import IconButton from 'components/IconButton';
 
+import styles from './TimelineControls.module.css';
 import {
   moveItem,
   removeItem,
@@ -73,7 +74,7 @@ export default function TimelineControls() {
   };
 
   return (
-    <div className="flex p-2 space-x-2 bg-gray-400">
+    <div className={styles.timelineControls}>
       <IconButton
         icon={TrashIcon}
         disabled={!canDelete}

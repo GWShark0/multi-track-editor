@@ -2,13 +2,14 @@ import { useSelector } from 'react-redux';
 
 import NewTrackRow from './NewTrackRow';
 import TrackRow from './TrackRow';
+import styles from './Tracks.module.css';
 import { selectAllTracks } from './storyboardSlice';
 
 export default function Tracks() {
   const tracks = useSelector(selectAllTracks);
 
   return (
-    <div className="p-8 overflow-scroll">
+    <div className={styles.tracks}>
       <NewTrackRow index={0} />
       {tracks.reduce((acc, track, index) => {
         acc.push(

@@ -1,0 +1,9 @@
+.mediaControls {
+  display: flex;
+  max-width: 64rem;
+  user-select: none;
+}
+
+.mediaControls > * + * {
+  margin-left: 0.5rem;
+}

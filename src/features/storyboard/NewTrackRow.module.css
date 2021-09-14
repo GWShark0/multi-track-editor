@@ -1,0 +1,17 @@
+.newTrackRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  border-radius: 0.25rem;
+}
+
+.newTrackRow:only-child {
+  flex: 1;
+  margin-bottom: 2rem;
+  transition: background-color 150ms ease-in-out;
+}
+
+.over {
+  background-color: var(--blue-100);
+}

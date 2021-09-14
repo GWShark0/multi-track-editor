@@ -1,10 +1,10 @@
 import { useDndMonitor, useDroppable } from '@dnd-kit/core';
 import clsx from 'clsx';
-import { startsWith } from 'lodash';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import TrackItem from './TrackItem';
+import styles from './TrackRow.module.css';
 import { TRACK_TYPES } from './media';
 import { selectItemsByTrack, selectTrackById } from './storyboardSlice';
 
@@ -46,13 +46,10 @@ export default function TrackRow({ trackId }) {
 
   return (
     <div
-      className={clsx(
-        'relative flex h-10 bg-gray-100 rounded transition-colors',
-        {
-          'bg-green-100': isOver && isCompatible,
-          'bg-red-100': isOver && !isCompatible,
-        }
-      )}
+      className={clsx(styles.trackRow, {
+        [styles.green]: isOver && isCompatible,
+        [styles.red]: isOver && !isCompatible,
+      })}
       ref={setNodeRef}
     >
       {/* {trackId} */}

@@ -31,21 +31,9 @@ export default function App() {
           if (fromTrackId !== toTrackId) {
             dispatch(moveItem({ itemId, fromTrackId, mediaType, toTrackId }));
           }
-
-          console.log('from:', fromTrackId);
-          console.log('to:', toTrackId);
         }
       }
     }
-
-    // if (startsWith(over.id, 'track')) {
-    //   console.log(active);
-    //   // const mediaType = active.id.replace('media-item-', '');
-    //   // const trackId = over.id.replace('track-', '');
-    //   // if (over.data.current.accepts.includes(active.data.current.type)) {
-    //   //   dispatch(addItem(createItem(mediaType, { trackId })));
-    //   // }
-    // }
 
     if (over.data.current.type === 'new-track') {
       const mediaType = active.data.current.mediaType;
@@ -59,11 +47,6 @@ export default function App() {
         const toTrackIndex = trackIndex;
         dispatch(moveItem({ itemId, fromTrackId, mediaType, toTrackIndex }));
       }
-
-      // console.log(mediaType, trackIndex);
-      // const mediaType = active.id.replace('media-item-', '');
-      // const trackIndex = parseInt(over.id.replace('new-track-', ''));
-      // dispatch(addItem(createItem(mediaType, { trackIndex })));
     }
   };
 

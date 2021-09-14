@@ -4,7 +4,17 @@ import {
   createSlice,
   current,
 } from '@reduxjs/toolkit';
-import { find, first, last, maxBy, pick, pull, toArray } from 'lodash';
+import {
+  find,
+  first,
+  last,
+  maxBy,
+  pick,
+  pull,
+  toArray,
+  filter,
+  map,
+} from 'lodash';
 import { nanoid } from 'nanoid';
 
 import { mapMediaToTrack } from './media';
@@ -15,11 +25,11 @@ const tracksAdapter = createEntityAdapter();
 const initialState = {
   items: itemsAdapter.getInitialState(),
   tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
-    { id: 'a', type: 'text', itemIds: [] },
-    { id: 'b', type: 'text', itemIds: [] },
-    { id: 'c', type: 'text', itemIds: [] },
+    // { id: 'a', type: 'text', itemIds: [] },
+    // { id: 'b', type: 'text', itemIds: [] },
+    // { id: 'c', type: 'text', itemIds: [] },
   ]),
-  // tracks: tracksAdapter.getInitialState(),
+  tracks: tracksAdapter.getInitialState(),
 };
 
 function addTrack(state, type) {
@@ -44,6 +54,14 @@ function calculateTrackEndTime(state, trackId) {
   const items = toArray(pick(state.items.entities, itemIds));
   const lastItem = maxBy(items, 'startTime');
   return lastItem?.startTime + lastItem?.duration || 0;
+}
+
+function removeEmptyTracks(state) {
+  const trackIdsForRemoval = map(
+    filter(state.tracks.entities, (track) => track.itemIds.length === 0),
+    'id'
+  );
+  tracksAdapter.removeMany(state.tracks, trackIdsForRemoval);
 }
 
 export const storyboardSlice = createSlice({
@@ -99,6 +117,8 @@ export const storyboardSlice = createSlice({
 
       pull(fromTrack.itemIds, itemId);
       toTrack.itemIds.push(itemId);
+
+      removeEmptyTracks(state);
     },
     updateItem: (state, action) => {
       const { itemId, delta } = action.payload;
@@ -123,6 +143,8 @@ export const storyboardSlice = createSlice({
 
       itemsAdapter.removeOne(state.items, itemId);
       delete state.activeItemId;
+
+      removeEmptyTracks(state);
     },
     setActiveItemId: (state, action) => {
       state.activeItemId = action.payload;

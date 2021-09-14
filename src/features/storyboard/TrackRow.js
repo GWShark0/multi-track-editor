@@ -55,7 +55,7 @@ export default function TrackRow({ trackId }) {
       )}
       ref={setNodeRef}
     >
-      {trackId}
+      {/* {trackId} */}
       {itemsForTrack.map((item) => {
         return <TrackItem itemId={item.id} trackId={trackId} key={item.id} />;
       })}

@@ -20,7 +20,7 @@ export default function NewTrackRow(props) {
       )}
       ref={setNodeRef}
     >
-      {index}
+      {/* {index} */}
     </div>
   );
 }

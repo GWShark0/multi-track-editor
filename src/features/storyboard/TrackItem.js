@@ -26,7 +26,7 @@ function TrackItem({ itemId, trackId }) {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => selectIsActive(state, itemId));
   const item = useSelector((state) => selectItemById(state, itemId));
-  const { duration = 1, startTime = 0, mediaType } = item;
+  const { duration = 1, mediaType } = item;
 
   const { attributes, isDragging, listeners, setNodeRef, transform } =
     useDraggable({
@@ -51,9 +51,7 @@ function TrackItem({ itemId, trackId }) {
 
   const style = {
     width: duration * PX_PER_SEC,
-    transform: isDragging
-      ? CSS.Translate.toString(transform)
-      : `translateX(${startTime * PX_PER_SEC}px)`,
+    transform: CSS.Translate.toString(transform),
   };
 
   return (

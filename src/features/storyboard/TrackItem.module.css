@@ -1,7 +1,5 @@
 .trackItem {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   display: flex;
   align-items: center;
   padding-left: 0.5rem;

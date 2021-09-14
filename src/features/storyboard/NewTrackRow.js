@@ -6,6 +6,10 @@ export default function NewTrackRow(props) {
 
   const { isOver, setNodeRef } = useDroppable({
     id: `new-track-${index}`,
+    data: {
+      type: 'new-track',
+      index,
+    },
   });
 
   return (

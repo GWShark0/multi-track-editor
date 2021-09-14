@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 
 import NewTrackRow from './NewTrackRow';

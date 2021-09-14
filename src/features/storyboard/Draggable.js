@@ -6,13 +6,7 @@ export default function Draggable(props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = { transform: CSS.Translate.toString(transform) };
   return (
-    <div
-      className="flex-1 w-full"
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
-    >
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
       {children}
     </div>
   );

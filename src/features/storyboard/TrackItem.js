@@ -1,3 +1,5 @@
+import { useDraggable } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 import {
   LightningBoltIcon,
   MusicNoteIcon,
@@ -19,11 +21,22 @@ import {
 
 const PX_PER_SEC = 80;
 
-function TrackItem({ itemId }) {
+function TrackItem({ itemId, trackId }) {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => selectIsActive(state, itemId));
   const item = useSelector((state) => selectItemById(state, itemId));
   const { duration = 1, startTime = 0, mediaType } = item;
+
+  const { attributes, isDragging, listeners, setNodeRef, transform } =
+    useDraggable({
+      id: `track-item-${itemId}`,
+      data: {
+        type: 'track-item',
+        itemId,
+        trackId,
+        mediaType,
+      },
+    });
 
   const isAudio = mediaType === MEDIA_TYPES.audio;
   const isImage = mediaType === MEDIA_TYPES.image;
@@ -37,7 +50,9 @@ function TrackItem({ itemId }) {
 
   const style = {
     width: duration * PX_PER_SEC,
-    transform: `translateX(${startTime * PX_PER_SEC}px)`,
+    transform: isDragging
+      ? CSS.Translate.toString(transform)
+      : `translateX(${startTime * PX_PER_SEC}px)`,
   };
 
   return (
@@ -52,7 +67,10 @@ function TrackItem({ itemId }) {
             isVideo || isImage,
         }
       )}
+      ref={setNodeRef}
       style={style}
+      {...listeners}
+      {...attributes}
       onClick={handleClick}
     >
       <div className={clsx({ 'text-yellow-100': isActive })}>

@@ -22,9 +22,9 @@ export default function TrackRow({ trackId }) {
       return;
     }
 
-    if (startsWith(over.id, 'track')) {
+    if (over.data.current.type === 'track-row') {
       setIsCompatible(
-        over.data.current.accepts.includes(active.data.current.type)
+        over.data.current.accepts.includes(active.data.current.mediaType)
       );
     }
   };
@@ -36,8 +36,10 @@ export default function TrackRow({ trackId }) {
   useDndMonitor({ onDragOver, onDragEnd });
 
   const { isOver, setNodeRef } = useDroppable({
-    id: `track-${trackId}`,
+    id: `track-row-${trackId}`,
     data: {
+      type: 'track-row',
+      trackId,
       accepts: TRACK_TYPES[type].accepts,
     },
   });
@@ -55,7 +57,7 @@ export default function TrackRow({ trackId }) {
     >
       {trackId}
       {itemsForTrack.map((item) => {
-        return <TrackItem itemId={item.id} key={item.id} />;
+        return <TrackItem itemId={item.id} trackId={trackId} key={item.id} />;
       })}
     </div>
   );

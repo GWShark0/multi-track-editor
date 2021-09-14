@@ -4,10 +4,14 @@ import clsx from 'clsx';
 
 export default function MediaItem(props) {
   const { label, type } = props;
-  const id = `media-item-${type}`;
   const { attributes, isDragging, listeners, setNodeRef, transform } =
-    useDraggable({ id, data: { type } });
-
+    useDraggable({
+      id: `media-item-${type}`,
+      data: {
+        type: 'media-item',
+        mediaType: type,
+      },
+    });
   const style = { transform: CSS.Translate.toString(transform) };
 
   return (

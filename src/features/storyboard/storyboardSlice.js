@@ -16,8 +16,8 @@ const initialState = {
   items: itemsAdapter.getInitialState(),
   tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
     { id: 'a', type: 'text', itemIds: [] },
-    { id: 'b', type: 'video', itemIds: [] },
-    { id: 'c', type: 'audio', itemIds: [] },
+    { id: 'b', type: 'text', itemIds: [] },
+    { id: 'c', type: 'text', itemIds: [] },
   ]),
   // tracks: tracksAdapter.getInitialState(),
 };
@@ -79,7 +79,21 @@ export const storyboardSlice = createSlice({
       state.activeItemId = id;
     },
     moveItem: (state, action) => {
-      const { itemId, fromTrackId, toTrackId } = action.payload;
+      const { itemId, fromTrackId, mediaType } = action.payload;
+      let toTrackId = action.payload.toTrackId;
+
+      if (!toTrackId) {
+        toTrackId = nanoid();
+        const trackIndex =
+          action.payload.toTrackIndex ?? state.tracks.ids.length;
+        state.tracks.ids.splice(trackIndex, 0, toTrackId);
+        state.tracks.entities[toTrackId] = {
+          id: toTrackId,
+          type: mapMediaToTrack(mediaType),
+          itemIds: [],
+        };
+      }
+
       const fromTrack = state.tracks.entities[fromTrackId];
       const toTrack = state.tracks.entities[toTrackId];
 

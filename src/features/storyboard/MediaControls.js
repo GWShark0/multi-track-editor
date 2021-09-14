@@ -1,40 +1,40 @@
-import { useDispatch } from 'react-redux';
-
+// import { useDispatch } from 'react-redux';
 import MediaItem from './MediaItem';
 import {
-  createAudioItem,
-  createImageItem,
-  createOverlayItem,
-  createTextItem,
-  createVideoItem,
+  // createAudioItem,
+  // createImageItem,
+  // createOverlayItem,
+  // createTextItem,
+  // createVideoItem,
   MEDIA_TYPES,
 } from './media';
-import { addItem } from './storyboardSlice';
+
+// import { addItem } from './storyboardSlice';
 
 // import Button from 'components/Button';
 
 export default function MediaControls() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handleAudioButtonClick = () => {
-    dispatch(addItem(createAudioItem()));
-  };
+  // const handleAudioButtonClick = () => {
+  //   dispatch(addItem(createAudioItem()));
+  // };
 
-  const handleImageButtonClick = () => {
-    dispatch(addItem(createImageItem()));
-  };
+  // const handleImageButtonClick = () => {
+  //   dispatch(addItem(createImageItem()));
+  // };
 
-  const handleOverlayButtonClick = () => {
-    dispatch(addItem(createOverlayItem()));
-  };
+  // const handleOverlayButtonClick = () => {
+  //   dispatch(addItem(createOverlayItem()));
+  // };
 
-  const handleTextButtonClick = () => {
-    dispatch(addItem(createTextItem()));
-  };
+  // const handleTextButtonClick = () => {
+  //   dispatch(addItem(createTextItem()));
+  // };
 
-  const handleVideoButtonClick = () => {
-    dispatch(addItem(createVideoItem()));
-  };
+  // const handleVideoButtonClick = () => {
+  //   dispatch(addItem(createVideoItem()));
+  // };
 
   return (
     <div className="flex max-w-5xl space-x-2 select-none">

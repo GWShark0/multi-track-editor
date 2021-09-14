@@ -19,7 +19,7 @@ import {
 
 const PX_PER_SEC = 80;
 
-function TimelineItem({ itemId }) {
+function TrackItem({ itemId }) {
   const dispatch = useDispatch();
   const isActive = useSelector((state) => selectIsActive(state, itemId));
   const item = useSelector((state) => selectItemById(state, itemId));
@@ -69,4 +69,4 @@ function TimelineItem({ itemId }) {
   );
 }
 
-export default memo(TimelineItem);
+export default memo(TrackItem);

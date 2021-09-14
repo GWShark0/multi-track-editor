@@ -25,6 +25,12 @@ export default function App() {
         dispatch(addItem(createItem(mediaType, { trackId })));
       }
     }
+
+    if (startsWith(over.id, 'new-track')) {
+      const mediaType = active.id.replace('media-item-', '');
+      const trackIndex = parseInt(over.id.replace('new-track-', ''));
+      dispatch(addItem(createItem(mediaType, { trackIndex })));
+    }
   };
 
   return (

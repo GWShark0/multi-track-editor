@@ -1,13 +1,14 @@
 import { useDndMonitor, useDroppable } from '@dnd-kit/core';
 import clsx from 'clsx';
+import { startsWith } from 'lodash';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import TimelineItem from './TimelineItem';
+import TrackItem from './TrackItem';
 import { TRACK_TYPES } from './media';
 import { selectItemsByTrack, selectTrackById } from './storyboardSlice';
 
-export default function TimelineTrack({ trackId }) {
+export default function TrackRow({ trackId }) {
   const [isCompatible, setIsCompatible] = useState(false);
   const track = useSelector((state) => selectTrackById(state, trackId));
   const itemsForTrack = useSelector((state) =>
@@ -21,9 +22,11 @@ export default function TimelineTrack({ trackId }) {
       return;
     }
 
-    setIsCompatible(
-      over.data.current.accepts.includes(active.data.current.type)
-    );
+    if (startsWith(over.id, 'track')) {
+      setIsCompatible(
+        over.data.current.accepts.includes(active.data.current.type)
+      );
+    }
   };
 
   const onDragEnd = () => {
@@ -50,8 +53,9 @@ export default function TimelineTrack({ trackId }) {
       )}
       ref={setNodeRef}
     >
+      {trackId}
       {itemsForTrack.map((item) => {
-        return <TimelineItem itemId={item.id} key={item.id} />;
+        return <TrackItem itemId={item.id} key={item.id} />;
       })}
     </div>
   );

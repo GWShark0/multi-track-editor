@@ -1,9 +1,10 @@
 import {
   createEntityAdapter,
   createSelector,
-  createSlice, // current,
+  createSlice,
+  current,
 } from '@reduxjs/toolkit';
-import { find, first, isEmpty, last, maxBy, pick, pull, toArray } from 'lodash';
+import { find, first, last, maxBy, pick, pull, toArray } from 'lodash';
 import { nanoid } from 'nanoid';
 
 import { mapMediaToTrack } from './media';
@@ -14,9 +15,9 @@ const tracksAdapter = createEntityAdapter();
 const initialState = {
   items: itemsAdapter.getInitialState(),
   tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
-    { id: nanoid(), type: 'text', itemIds: [] },
-    { id: nanoid(), type: 'video', itemIds: [] },
-    { id: nanoid(), type: 'audio', itemIds: [] },
+    { id: 'a', type: 'text', itemIds: [] },
+    { id: 'b', type: 'video', itemIds: [] },
+    { id: 'c', type: 'audio', itemIds: [] },
   ]),
   // tracks: tracksAdapter.getInitialState(),
 };
@@ -51,18 +52,28 @@ export const storyboardSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const { duration, id, mediaType } = action.payload;
-      let { trackId } = action.payload;
+      let trackId = action.payload.trackId;
 
       if (!trackId) {
-        trackId = findTrackForMediaType(state, mediaType);
+        trackId = nanoid();
+        const trackIndex = action.payload.trackIndex ?? state.tracks.ids.length;
+        state.tracks.ids.splice(trackIndex, 0, trackId);
+        state.tracks.entities[trackId] = {
+          id: trackId,
+          type: mapMediaToTrack(mediaType),
+          itemIds: [],
+        };
       }
-
-      const startTime = calculateTrackEndTime(state, trackId);
 
       const track = state.tracks.entities[trackId];
       track.itemIds.push(id);
 
-      const item = { duration, id, mediaType, startTime };
+      const item = {
+        duration,
+        id,
+        mediaType,
+        startTime: calculateTrackEndTime(state, trackId),
+      };
       itemsAdapter.addOne(state.items, item);
 
       state.activeItemId = id;
@@ -92,9 +103,9 @@ export const storyboardSlice = createSlice({
 
       pull(track.itemIds, itemId);
 
-      if (isEmpty(track.itemIds)) {
-        tracksAdapter.removeOne(state.tracks, trackId);
-      }
+      // if (isEmpty(track.itemIds)) {
+      //   tracksAdapter.removeOne(state.tracks, trackId);
+      // }
 
       itemsAdapter.removeOne(state.items, itemId);
       delete state.activeItemId;
@@ -106,8 +117,14 @@ export const storyboardSlice = createSlice({
 });
 
 // actions
-export const { addItem, moveItem, updateItem, removeItem, setActiveItemId } =
-  storyboardSlice.actions;
+export const {
+  addItem,
+  addItemToNewTrack,
+  moveItem,
+  updateItem,
+  removeItem,
+  setActiveItemId,
+} = storyboardSlice.actions;
 
 // selectors
 export const {

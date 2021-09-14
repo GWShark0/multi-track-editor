@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import styles from './MediaItem.module.css';
 
 export default function MediaItem(props) {
-  const { label, type } = props;
+  const { label, type, onDoubleClick } = props;
   const { attributes, isDragging, listeners, setNodeRef, transform } =
     useDraggable({
       id: `media-item-${type}`,
@@ -23,6 +23,7 @@ export default function MediaItem(props) {
       style={style}
       {...listeners}
       {...attributes}
+      onDoubleClick={onDoubleClick}
     >
       {label}
     </div>

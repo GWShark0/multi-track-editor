@@ -2,8 +2,8 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
-  current,
 } from '@reduxjs/toolkit';
+// import { current } from '@reduxjs/toolkit';
 import {
   find,
   first,
@@ -24,11 +24,11 @@ const tracksAdapter = createEntityAdapter();
 
 const initialState = {
   items: itemsAdapter.getInitialState(),
-  tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
-    // { id: 'a', type: 'text', itemIds: [] },
-    // { id: 'b', type: 'text', itemIds: [] },
-    // { id: 'c', type: 'text', itemIds: [] },
-  ]),
+  // tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
+  //   { id: 'a', type: 'text', itemIds: [] },
+  //   { id: 'b', type: 'text', itemIds: [] },
+  //   { id: 'c', type: 'text', itemIds: [] },
+  // ]),
   tracks: tracksAdapter.getInitialState(),
 };
 

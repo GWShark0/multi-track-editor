@@ -5,6 +5,6 @@
   left: 0px;
   display: flex;
   flex-direction: column;
-  height: 50%;
+  height: var(--timeline-height);
   background-color: var(--gray-300);
 }

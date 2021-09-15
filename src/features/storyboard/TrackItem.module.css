@@ -12,6 +12,7 @@
 }
 
 [role='button'].dragging {
+  z-index: var(--z-50);
   cursor: grabbing;
 }
 

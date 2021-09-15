@@ -1,6 +1,5 @@
 [role='button'].mediaItem {
   position: relative;
-  z-index: var(--z-50);
   flex: 1;
   display: flex;
   align-items: center;
@@ -21,5 +20,6 @@
 }
 
 [role='button'].dragging {
+  z-index: var(--z-50);
   cursor: grabbing;
 }

@@ -1,6 +1,7 @@
 .trackRow {
   position: relative;
   display: flex;
+  flex-shrink: 0;
   height: 2.5rem;
   border-radius: 0.25rem;
   background-color: var(--gray-100);

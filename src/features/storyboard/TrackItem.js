@@ -9,9 +9,8 @@ import {
 import clsx from 'clsx';
 import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { ReactComponent as TextIcon } from 'assets/text.svg';
-
+import { PX_PER_SEC } from 'utils/constants';
 import styles from './TrackItem.module.css';
 import { MEDIA_TYPES } from './media';
 import {
@@ -19,8 +18,6 @@ import {
   selectItemById,
   setActiveItemId,
 } from './storyboardSlice';
-
-const PX_PER_SEC = 80;
 
 function TrackItem({ itemId, trackId }) {
   const dispatch = useDispatch();

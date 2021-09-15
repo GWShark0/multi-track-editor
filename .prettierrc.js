@@ -4,8 +4,8 @@ module.exports = {
     '^assets/(.*)$',
     '^components/(.*)$',
     '^features/(.*)$',
-    '^./.*$',
+    '^utils/(.*)$',
+    '^[./]',
   ],
-  importOrderSeparation: true,
   experimentalBabelParserPluginsList: ['jsx'],
 };

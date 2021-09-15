@@ -1,5 +1,4 @@
 import { useDispatch } from 'react-redux';
-
 import styles from './MediaControls.module.css';
 import MediaItem from './MediaItem';
 import { createItem, MEDIA_TYPES } from './media';

@@ -4,19 +4,8 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 // import { current } from '@reduxjs/toolkit';
-import {
-  find,
-  first,
-  last,
-  maxBy,
-  pick,
-  pull,
-  toArray,
-  filter,
-  map,
-} from 'lodash';
+import { filter, first, last, map, maxBy, pick, pull, toArray } from 'lodash';
 import { nanoid } from 'nanoid';
-
 import { mapMediaToTrack } from './media';
 
 const itemsAdapter = createEntityAdapter();
@@ -31,22 +20,6 @@ const initialState = {
   // ]),
   tracks: tracksAdapter.getInitialState(),
 };
-
-function addTrack(state, type) {
-  const id = nanoid();
-  tracksAdapter.addOne(state.tracks, { id, type, itemIds: [] });
-  return id;
-}
-
-function findTrackIdByType(state, type) {
-  return find(state.tracks.entities, ['type', type])?.id;
-}
-
-function findTrackForMediaType(state, mediaType) {
-  const type = mapMediaToTrack(mediaType);
-  const trackId = findTrackIdByType(state, type) || addTrack(state, type);
-  return trackId;
-}
 
 function calculateTrackEndTime(state, trackId) {
   const track = state.tracks.entities[trackId];

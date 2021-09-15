@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-
 import styles from './IconButton.module.css';
 
 const COLORS = {

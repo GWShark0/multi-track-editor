@@ -2,7 +2,6 @@ import { useDndMonitor, useDroppable } from '@dnd-kit/core';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import TrackItem from './TrackItem';
 import styles from './TrackRow.module.css';
 import { TRACK_TYPES } from './media';

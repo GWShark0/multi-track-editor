@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-
 import NewTrackRow from './NewTrackRow';
 import TrackRow from './TrackRow';
 import styles from './Tracks.module.css';

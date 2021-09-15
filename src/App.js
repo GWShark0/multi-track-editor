@@ -1,11 +1,9 @@
 import { DndContext } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
-
 import MediaControls from 'features/storyboard/MediaControls';
 import Timeline from 'features/storyboard/Timeline';
 import { createItem } from 'features/storyboard/media';
 import { addItem, moveItem } from 'features/storyboard/storyboardSlice';
-
 import styles from './App.module.css';
 
 export default function App() {

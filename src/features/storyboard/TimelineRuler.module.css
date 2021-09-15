@@ -1,0 +1,41 @@
+.timelineRuler {
+  height: 32px;
+  padding: 0 24px;
+  background-color: var(--gray-100);
+  user-select: none;
+}
+
+.container {
+  position: relative;
+  height: 100%;
+}
+
+.evenMark,
+.oddMark {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+.evenMark::before,
+.oddMark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-left: 1px solid var(--gray-300);
+}
+
+.evenMark {
+  display: flex;
+  align-items: flex-end;
+  padding-left: 4px;
+  padding-bottom: 4px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.oddMark {
+  height: 12px;
+}

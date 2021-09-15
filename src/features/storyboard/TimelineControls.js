@@ -1,9 +1,7 @@
 import { TrashIcon } from '@heroicons/react/solid';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useDispatch, useSelector } from 'react-redux';
-
 import IconButton from 'components/IconButton';
-
 import styles from './TimelineControls.module.css';
 import {
   removeItem,

@@ -1,7 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
-
 import styles from './MediaItem.module.css';
 
 export default function MediaItem(props) {

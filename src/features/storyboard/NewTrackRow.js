@@ -1,6 +1,5 @@
 import { useDroppable } from '@dnd-kit/core';
 import clsx from 'clsx';
-
 import styles from './NewTrackRow.module.css';
 
 export default function NewTrackRow(props) {

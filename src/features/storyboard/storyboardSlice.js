@@ -2,9 +2,9 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
-  // current,
 } from '@reduxjs/toolkit';
-import { find, first, isEmpty, last, maxBy, pick, pull, toArray } from 'lodash';
+// import { current } from '@reduxjs/toolkit';
+import { filter, first, last, map, maxBy, pick, pull, toArray } from 'lodash';
 import { nanoid } from 'nanoid';
 import { mapMediaToTrack } from './media';
 
@@ -14,28 +14,12 @@ const tracksAdapter = createEntityAdapter();
 const initialState = {
   items: itemsAdapter.getInitialState(),
   // tracks: tracksAdapter.addMany(tracksAdapter.getInitialState(), [
-  //   { id: nanoid(), type: 'text', itemIds: [] },
-  //   { id: nanoid(), type: 'video', itemIds: [] },
-  //   { id: nanoid(), type: 'audio', itemIds: [] },
+  //   { id: 'a', type: 'text', itemIds: [] },
+  //   { id: 'b', type: 'text', itemIds: [] },
+  //   { id: 'c', type: 'text', itemIds: [] },
   // ]),
   tracks: tracksAdapter.getInitialState(),
 };
-
-function addTrack(state, type) {
-  const id = nanoid();
-  tracksAdapter.addOne(state.tracks, { id, type, itemIds: [] });
-  return id;
-}
-
-function findTrackIdByType(state, type) {
-  return find(state.tracks.entities, ['type', type])?.id;
-}
-
-function findTrackForMediaType(state, mediaType) {
-  const type = mapMediaToTrack(mediaType);
-  const trackId = findTrackIdByType(state, type) || addTrack(state, type);
-  return trackId;
-}
 
 function calculateTrackEndTime(state, trackId) {
   const track = state.tracks.entities[trackId];
@@ -45,30 +29,69 @@ function calculateTrackEndTime(state, trackId) {
   return lastItem?.startTime + lastItem?.duration || 0;
 }
 
+function removeEmptyTracks(state) {
+  const trackIdsForRemoval = map(
+    filter(state.tracks.entities, (track) => track.itemIds.length === 0),
+    'id'
+  );
+  tracksAdapter.removeMany(state.tracks, trackIdsForRemoval);
+}
+
 export const storyboardSlice = createSlice({
   name: 'storyboard',
   initialState,
   reducers: {
     addItem: (state, action) => {
       const { duration, id, mediaType } = action.payload;
-      const item = { id, mediaType, duration };
-      const trackId = findTrackForMediaType(state, item.mediaType);
-      const startTime = calculateTrackEndTime(state, trackId);
+      let trackId = action.payload.trackId;
+
+      if (!trackId) {
+        trackId = nanoid();
+        const trackIndex = action.payload.trackIndex ?? state.tracks.ids.length;
+        state.tracks.ids.splice(trackIndex, 0, trackId);
+        state.tracks.entities[trackId] = {
+          id: trackId,
+          type: mapMediaToTrack(mediaType),
+          itemIds: [],
+        };
+      }
 
       const track = state.tracks.entities[trackId];
       track.itemIds.push(id);
 
-      itemsAdapter.addOne(state.items, { ...item, startTime });
+      const item = {
+        duration,
+        id,
+        mediaType,
+        startTime: calculateTrackEndTime(state, trackId),
+      };
+      itemsAdapter.addOne(state.items, item);
 
       state.activeItemId = id;
     },
     moveItem: (state, action) => {
-      const { itemId, fromTrackId, toTrackId } = action.payload;
+      const { itemId, fromTrackId, mediaType } = action.payload;
+      let toTrackId = action.payload.toTrackId;
+
+      if (!toTrackId) {
+        toTrackId = nanoid();
+        const trackIndex =
+          action.payload.toTrackIndex ?? state.tracks.ids.length;
+        state.tracks.ids.splice(trackIndex, 0, toTrackId);
+        state.tracks.entities[toTrackId] = {
+          id: toTrackId,
+          type: mapMediaToTrack(mediaType),
+          itemIds: [],
+        };
+      }
+
       const fromTrack = state.tracks.entities[fromTrackId];
       const toTrack = state.tracks.entities[toTrackId];
 
       pull(fromTrack.itemIds, itemId);
       toTrack.itemIds.push(itemId);
+
+      removeEmptyTracks(state);
     },
     updateItem: (state, action) => {
       const { itemId, delta } = action.payload;
@@ -87,12 +110,10 @@ export const storyboardSlice = createSlice({
 
       pull(track.itemIds, itemId);
 
-      if (isEmpty(track.itemIds)) {
-        tracksAdapter.removeOne(state.tracks, trackId);
-      }
-
       itemsAdapter.removeOne(state.items, itemId);
       delete state.activeItemId;
+
+      removeEmptyTracks(state);
     },
     setActiveItemId: (state, action) => {
       state.activeItemId = action.payload;
@@ -101,8 +122,14 @@ export const storyboardSlice = createSlice({
 });
 
 // actions
-export const { addItem, moveItem, updateItem, removeItem, setActiveItemId } =
-  storyboardSlice.actions;
+export const {
+  addItem,
+  addItemToNewTrack,
+  moveItem,
+  updateItem,
+  removeItem,
+  setActiveItemId,
+} = storyboardSlice.actions;
 
 // selectors
 export const {

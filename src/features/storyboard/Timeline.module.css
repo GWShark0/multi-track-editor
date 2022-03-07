@@ -1,0 +1,10 @@
+.timeline {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  height: var(--timeline-height);
+  background-color: var(--gray-300);
+}

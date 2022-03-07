@@ -1,0 +1,29 @@
+.newTrackRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  height: 24px;
+  border-radius: 0.25rem;
+}
+
+.newTrackRow:first-child {
+  margin-top: 0;
+  height: 16px;
+}
+
+.newTrackRow:last-child {
+  margin-bottom: 0;
+  height: 16px;
+}
+
+.newTrackRow:only-child {
+  flex: 1;
+  transition: background-color 150ms ease-in-out;
+}
+
+.over {
+  background-color: var(--blue-100);
+}

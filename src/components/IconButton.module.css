@@ -1,0 +1,59 @@
+.iconButton {
+  display: flex;
+  color: var(--white);
+  border-radius: 0.25rem;
+  background-color: var(--gray-500);
+  padding: 0.5rem;
+  transition: background-color 100ms ease-in-out;
+}
+
+.iconButton:hover {
+  background-color: var(--gray-600);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.red {
+  background-color: var(--red-500);
+}
+
+.red:hover {
+  background-color: var(--red-600);
+}
+
+.green {
+  background-color: var(--green-500);
+}
+
+.green:hover {
+  background-color: var(--green-600);
+}
+
+.blue {
+  background-color: var(--blue-500);
+}
+
+.blue:hover {
+  background-color: var(--blue-600);
+}
+
+.round {
+  border-radius: 9999px;
+}
+
+.small {
+  padding: 0.25rem;
+}
+
+.small > .icon {
+  width: 1rem;
+  height: 1rem;
+}

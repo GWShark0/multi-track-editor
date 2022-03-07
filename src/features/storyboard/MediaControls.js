@@ -1,44 +1,39 @@
 import { useDispatch } from 'react-redux';
-import Button from 'components/Button';
-import {
-  createAudioItem,
-  createImageItem,
-  createOverlayItem,
-  createTextItem,
-  createVideoItem,
-} from './media';
+import styles from './MediaControls.module.css';
+import MediaItem from './MediaItem';
+import { createItem, MEDIA_TYPES } from './media';
 import { addItem } from './storyboardSlice';
 
 export default function MediaControls() {
   const dispatch = useDispatch();
 
-  const handleAudioButtonClick = () => {
-    dispatch(addItem(createAudioItem()));
-  };
-
-  const handleImageButtonClick = () => {
-    dispatch(addItem(createImageItem()));
-  };
-
-  const handleOverlayButtonClick = () => {
-    dispatch(addItem(createOverlayItem()));
-  };
-
-  const handleTextButtonClick = () => {
-    dispatch(addItem(createTextItem()));
-  };
-
-  const handleVideoButtonClick = () => {
-    dispatch(addItem(createVideoItem()));
-  };
-
   return (
-    <div className="space-x-2">
-      <Button onClick={handleTextButtonClick}>Add Text</Button>
-      <Button onClick={handleVideoButtonClick}>Add Video</Button>
-      <Button onClick={handleImageButtonClick}>Add Image</Button>
-      <Button onClick={handleAudioButtonClick}>Add Audio</Button>
-      <Button onClick={handleOverlayButtonClick}>Add Overlay</Button>
+    <div className={styles.mediaControls}>
+      <MediaItem
+        type={MEDIA_TYPES.text}
+        label="Text"
+        onDoubleClick={() => dispatch(addItem(createItem(MEDIA_TYPES.text)))}
+      />
+      <MediaItem
+        type={MEDIA_TYPES.video}
+        label="Video"
+        onDoubleClick={() => dispatch(addItem(createItem(MEDIA_TYPES.video)))}
+      />
+      <MediaItem
+        type={MEDIA_TYPES.image}
+        label="Image"
+        onDoubleClick={() => dispatch(addItem(createItem(MEDIA_TYPES.image)))}
+      />
+      <MediaItem
+        type={MEDIA_TYPES.audio}
+        label="Audio"
+        onDoubleClick={() => dispatch(addItem(createItem(MEDIA_TYPES.audio)))}
+      />
+      <MediaItem
+        type={MEDIA_TYPES.overlay}
+        label="Overlay"
+        onDoubleClick={() => dispatch(addItem(createItem(MEDIA_TYPES.overlay)))}
+      />
     </div>
   );
 }
